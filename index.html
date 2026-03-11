@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prakhar — Product Leader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --bg2: #141414;
+    --bg3: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e8e2d9;
+    --text-muted: #6b6460;
+    --text-dim: #9e9690;
+    --accent: #c9a84c;
+    --accent-dim: #7a6230;
+    --accent-glow: rgba(201,168,76,0.12);
+    --red: #c94c4c;
+    --green: #4cac7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(14,14,14,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-social {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .nav-social a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-social a:hover { color: var(--accent); }
+
+  .nav-social svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  .hero-accent-circle {
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-description {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.75;
+    max-width: 560px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: var(--accent);
+    color: #0e0e0e;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: #e0bb62;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* HERO STATS CARD */
+  .hero-stats {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 40px;
+    position: relative;
+  }
+
+  .hero-stats::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .stats-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  .stat-item {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-item:last-child { border-bottom: none; }
+
+  .stat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-desc {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+
+  /* SECTION LAYOUT */
+  .section {
+    padding: 100px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-full {
+    padding: 100px 48px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    gap: 40px;
+  }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.1;
+  }
+
+  .section-subtitle {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    max-width: 400px;
+    text-align: right;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-dim);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-size: 1.02rem;
+  }
+
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .about-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .timeline-item:last-child { border-bottom: none; }
+
+  .timeline-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    min-width: 80px;
+    padding-top: 2px;
+  }
+
+  .timeline-content {}
+
+  .timeline-role {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .timeline-company {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* PRODUCTS */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .product-card {
+    background: var(--bg);
+    padding: 36px 32px;
+    position: relative;
+    transition: background 0.3s;
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .product-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover {
+    background: var(--bg2);
+  }
+
+  .product-card:hover::after {
+    transform: scaleX(1);
+  }
+
+  .product-card-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .product-card-number {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 3rem;
+    color: var(--border);
+    line-height: 1;
+    font-style: italic;
+  }
+
+  .product-card-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.2;
+    padding-right: 40px;
+  }
+
+  .product-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 300;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .product-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .tag-highlight {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .product-card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  .status-dot.amber {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  .status-dot.building {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* FEATURED PRODUCT (WIDE CARD) */
+  .product-card-featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .product-card-featured .product-metrics {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+
+  .metric {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .metric-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+  }
+
+  .metric-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* VIDEOS SECTION */
+  .videos-scroll {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .video-card {
+    background: var(--bg2);
+    aspect-ratio: 16/10;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    group: true;
+  }
+
+  .video-card:hover .video-overlay { opacity: 1; }
+
+  .video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg3);
+    position: relative;
+  }
+
+  .video-placeholder-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20px;
+    line-height: 1.8;
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(14,14,14,0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .play-btn {
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play-btn svg { fill: var(--accent); width: 14px; height: 14px; margin-left: 2px; }
+
+  .video-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .video-meta {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 14px;
+    background: linear-gradient(transparent, rgba(14,14,14,0.95));
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .video-name {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .video-duration {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  /* SKILLS / TECH */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .skill-cell {
+    background: var(--bg);
+    padding: 28px 24px;
+    transition: background 0.2s;
+  }
+
+  .skill-cell:hover { background: var(--bg2); }
+
+  .skill-cell-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .skill-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .skill-item {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .skill-item::before {
+    content: '→';
+    color: var(--accent-dim);
+    font-size: 0.7rem;
+  }
+
+  /* PROTOCOLS */
+  .protocols-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .protocol-tag {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    transition: all 0.2s;
+  }
+
+  .protocol-tag:hover {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: 'OPEN TO WORK';
+    position: absolute;
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(60px, 12vw, 140px);
+    color: var(--border);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+  }
+
+  .contact-inner {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: 16px;
+  }
+
+  .contact-desc {
+    color: var(--text-dim);
+    font-weight: 300;
+    margin-bottom: 40px;
+    font-size: 1.02rem;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ANIMATE ON SCROLL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* HERO ANIMATION */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow { animation: fadeInUp 0.8s ease 0.1s both; }
+  .hero-title { animation: fadeInUp 0.8s ease 0.2s both; }
+  .hero-description { animation: fadeInUp 0.8s ease 0.35s both; }
+  .hero-cta { animation: fadeInUp 0.8s ease 0.5s both; }
+  .hero-stats { animation: fadeInUp 0.8s ease 0.3s both; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 16px 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-content { grid-template-columns: 1fr; gap: 48px; }
+    .hero-stats { max-width: 420px; }
+    .section, .section-full { padding: 72px 24px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .product-card-featured { grid-column: span 2; }
+    .videos-scroll { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .products-grid { grid-template-columns: 1fr; }
+    .product-card-featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .videos-scroll { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .section-header { flex-direction: column; align-items: flex-start; }
+    .section-subtitle { text-align: left; }
+    .contact-section::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Prakhar<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-social">
+    <!-- LinkedIn -->
+    <a href="https://linkedin.com/in/prakhar-agarwal-b2b2b2" target="_blank" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <!-- Twitter/X -->
+    <a href="https://twitter.com/prakhar_a707" target="_blank" title="Twitter">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <!-- Email -->
+    <a href="mailto:prakhara707@gmail.com" title="Email">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-accent-circle"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Product Leader · Singapore</div>
+      <h1 class="hero-title">Building products<br>at the frontier of<br><em>finance & crypto</em></h1>
+      <p class="hero-description">
+        I'm Prakhar — a product leader with 10+ years across blockchain, fintech, gaming, and banking. I build at the intersection of <strong>DeFi infrastructure, agentic AI, and financial systems</strong> — turning complex protocol mechanics into elegant user experiences.
+      </p>
+      <div class="hero-cta">
+        <a href="#products" class="btn-primary">View Work ↓</a>
+        <a href="https://linkedin.com/in/prakhar-agarwal" target="_blank" class="btn-secondary">LinkedIn →</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stats">
+        <div class="stats-label">// career highlights</div>
+        <div class="stat-item">
+          <div class="stat-value">10x+</div>
+          <div class="stat-desc">MAU growth at KyberSwap (9k → 138k users)</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">~$2M</div>
+          <div class="stat-desc">Revenue generated via DeFi product offerings</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">300+</div>
+          <div class="stat-desc">Liquidity source integrations across 14 blockchains</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">10yrs</div>
+          <div class="stat-desc">Across DeFi, fintech, gaming & banking</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section-full" id="about">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">About</div>
+        <h2 class="section-title">From code to<br>product strategy</h2>
+      </div>
+      <p class="section-subtitle">Started as a software developer, transitioned into product — now building at the intersection of AI and financial infrastructure.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I've recently joined <strong>Animoca Brands</strong> as Director of Product, working on <strong>AIR Money</strong> — a financial infrastructure platform I'm positioning as the "financial OS for the agentic economy." Previously, I led product at <strong>KyberSwap</strong>, one of the leading multi-chain DEX aggregators in DeFi.</p>
+        <p>I've been part of teams at all scales — from early-stage startups to multinationals like <strong>Credit Suisse</strong> and <strong>Ubisoft</strong>. I like working on big visions and the small details that make them real.</p>
+        <p>My current obsession: how AI agents need financial infrastructure to act autonomously — and what it means to build the payment rails, wallets, and policy engines that make that possible.</p>
+      </div>
+      <div class="about-timeline reveal reveal-delay-2">
+        <div class="timeline-item">
+          <div class="timeline-year">2024–now</div>
+          <div class="timeline-content">
+            <div class="timeline-role">Product Lead — AIR Money / USD8</div>
+            <div class="timeline-company">Animoca Brands</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2022–2024</div>
+          <div class="timeline-content">
+            <div class="timeline-role">Head of Product</div>
+            <div class="timeline-company">KyberSwap</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2020–2022</div>
+          <div class="timeline-content">
+            <div class="timeline-role">Director of Product</div>
+            <div class="timeline-company">Animoca Brands · Mocaverse</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">Earlier</div>
+          <div class="timeline-content">
+            <div class="timeline-role">Product & Engineering Roles</div>
+            <div class="timeline-company">Credit Suisse · Ubisoft · Fintech startups</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section-full" id="products">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Products</div>
+        <h2 class="section-title">Work I've shipped</h2>
+      </div>
+      <p class="section-subtitle">DeFi protocols, trading tools, financial infrastructure, and AI-native applications — across multiple chains and industries.</p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- FEATURED: AIR Money -->
+      <div class="product-card product-card-featured reveal">
+        <div>
+          <div class="product-card-company">Animoca Brands</div>
+          <div class="product-card-status">
+            <span class="status-dot building"></span>
+            <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">In Development</span>
+          </div>
+          <div class="product-card-number">01</div>
+          <h3 class="product-card-name">AIR Money — Financial OS for Agentic Economy</h3>
+          <p class="product-card-desc">Building the financial infrastructure layer for AI agents — programmable wallets, policy engines, and settlement rails. Positioning AIR Money as the "Stripe for AI agents" with MAS-regulated infrastructure and yield-bearing stablecoin (USD8) at its core.</p>
+          <div class="product-card-tags">
+            <span class="tag tag-highlight">Agentic Finance</span>
+            <span class="tag tag-highlight">Stablecoin</span>
+            <span class="tag">MCP Server</span>
+            <span class="tag">TEE/Enclave</span>
+            <span class="tag">MAS Regulated</span>
+            <span class="tag">B2B2C</span>
+          </div>
+        </div>
+        <div>
+          <div class="product-metrics">
+            <div class="metric">
+              <span class="metric-val">USD8</span>
+              <span class="metric-label">Yield-bearing stablecoin on M0 infrastructure</span>
+            </div>
+            <div class="metric">
+              <span class="metric-val">MPI</span>
+              <span class="metric-label">MAS Major Payment Institution licensing path</span>
+            </div>
+            <div class="metric">
+              <span class="metric-val">∞</span>
+              <span class="metric-label">Designed for AI agent × human financial flows</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- USD8 -->
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-card-company">Animoca Brands</div>
+        <div class="product-card-number">02</div>
+        <div class="product-card-status">
+          <span class="status-dot building"></span>
+          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">In Development</span>
+        </div>
+        <h3 class="product-card-name">USD8 Stablecoin</h3>
+        <p class="product-card-desc">Yield-bearing stablecoin built on M0 infrastructure with Wormhole cross-chain bridging. Led PRD, swap widget integration, and enterprise marketing strategy.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Stablecoin</span>
+          <span class="tag">MoonPay</span>
+          <span class="tag">Wormhole</span>
+          <span class="tag">DeFi</span>
+        </div>
+      </div>
+
+      <!-- DEX Aggregator -->
+      <div class="product-card reveal">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-number">03</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">Live</span>
+        </div>
+        <h3 class="product-card-name">DEX Aggregator</h3>
+        <p class="product-card-desc">Top-3 aggregator in DeFi with 300+ liquidity source integrations across 14 blockchains. Gave traders superior prices by solving fractured liquidity.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">DeFi</span>
+          <span class="tag">Multi-chain</span>
+          <span class="tag">300+ Sources</span>
+          <span class="tag">Trading</span>
+        </div>
+      </div>
+
+      <!-- KyberAI -->
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-number">04</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">Live</span>
+        </div>
+        <h3 class="product-card-name">KyberAI Trading Analytics</h3>
+        <p class="product-card-desc">On-chain + off-chain data aggregation across multiple chains condensed into actionable trading insights. Led development of the full analytics product suite.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Analytics</span>
+          <span class="tag">On-chain</span>
+          <span class="tag">Trading Intel</span>
+        </div>
+      </div>
+
+      <!-- Limit Orders -->
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-number">05</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">Live</span>
+        </div>
+        <h3 class="product-card-name">Non-Custodial Limit Orders</h3>
+        <p class="product-card-desc">On-chain limit orders settled by KyberSwap's taker network. First-of-its-kind gasless order cancellation feature — a novel DeFi UX innovation.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">DeFi</span>
+          <span class="tag">Gasless</span>
+          <span class="tag">Order Book</span>
+        </div>
+      </div>
+
+      <!-- Concentrated Liquidity -->
+      <div class="product-card reveal">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-number">06</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">Live</span>
+        </div>
+        <h3 class="product-card-name">Concentrated Liquidity Protocols</h3>
+        <p class="product-card-desc">Built 2 concentrated liquidity protocols enabling LPs to earn passive income. Developed full yield farming suite with multiple incentive mechanisms.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">AMM</span>
+          <span class="tag">Liquidity</span>
+          <span class="tag">Yield Farming</span>
+        </div>
+      </div>
+
+      <!-- Technical Products -->
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-number">07</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">Live</span>
+        </div>
+        <h3 class="product-card-name">Developer APIs, SDKs & Widgets</h3>
+        <p class="product-card-desc">Suite of trading APIs and widgets for partners. Integrations with Metamask, Defillama, Unibot and 50+ other protocols using the KyberSwap Aggregator API.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">API</span>
+          <span class="tag">SDK</span>
+          <span class="tag">B2B</span>
+          <span class="tag">Developer Tools</span>
+        </div>
+      </div>
+
+      <!-- Portfolio Management -->
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-number">08</div>
+        <div class="product-card-status">
+          <span class="status-dot amber"></span>
+          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace;">Concept</span>
+        </div>
+        <h3 class="product-card-name">Blockchain Portfolio Manager</h3>
+        <p class="product-card-desc">Risk-focused portfolio management with liquidity profiling and volatility scoring for on-chain traders. Designed for advanced DeFi users.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Portfolio</span>
+          <span class="tag">Risk Mgmt</span>
+          <span class="tag">Analytics</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT VIDEOS -->
+<section class="section-full" id="videos">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Demo Videos</div>
+        <h2 class="section-title">See it in motion</h2>
+      </div>
+      <p class="section-subtitle">Product walkthrough videos from KyberSwap — showing real shipped features.</p>
+    </div>
+
+    <div class="videos-scroll reveal">
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>Limit Orders<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Limit Orders</span>
+          <span class="video-duration">0:59</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>Earnings Dashboard<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Earnings Dashboard</span>
+          <span class="video-duration">0:16</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>Liquidity Protocol<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Liquidity Protocol</span>
+          <span class="video-duration">0:20</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>DEX Aggregator<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Aggregator</span>
+          <span class="video-duration">0:49</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>KyberAI<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">KyberAI</span>
+          <span class="video-duration">2:14</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>Price Alerts<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Price Alerts</span>
+          <span class="video-duration">0:33</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>Portfolio<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Portfolio</span>
+          <span class="video-duration">0:38</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-placeholder">
+          <div class="video-placeholder-text">Add your<br>Type & Swap<br>demo video here</div>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Type &amp; Swap</span>
+          <span class="video-duration">0:38</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section-full">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Expertise</div>
+        <h2 class="section-title">Domain depth</h2>
+      </div>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-cell">
+        <div class="skill-cell-label">DeFi / Web3</div>
+        <div class="skill-items">
+          <span class="skill-item">DEX Aggregators</span>
+          <span class="skill-item">AMMs & Liquidity Protocols</span>
+          <span class="skill-item">On-chain Order Books</span>
+          <span class="skill-item">Yield Farming</span>
+          <span class="skill-item">Cross-chain Bridges</span>
+          <span class="skill-item">Stablecoins & RWAs</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-label">Fintech & Payments</div>
+        <div class="skill-items">
+          <span class="skill-item">MAS / MPI Licensing</span>
+          <span class="skill-item">Cross-border Rails</span>
+          <span class="skill-item">Embedded Wallets</span>
+          <span class="skill-item">B2B2C Platforms</span>
+          <span class="skill-item">Payment Infrastructure</span>
+          <span class="skill-item">Financial Compliance</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-label">AI & Agentic</div>
+        <div class="skill-items">
+          <span class="skill-item">Agentic Finance</span>
+          <span class="skill-item">MCP Servers</span>
+          <span class="skill-item">Session Key Architecture</span>
+          <span class="skill-item">TEE / AWS Nitro Enclave</span>
+          <span class="skill-item">Policy Engines</span>
+          <span class="skill-item">Agent Wallet Design</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-label">Product Craft</div>
+        <div class="skill-items">
+          <span class="skill-item">Spec-Driven Development</span>
+          <span class="skill-item">0→1 Product Building</span>
+          <span class="skill-item">API / Developer Products</span>
+          <span class="skill-item">Growth & Retention</span>
+          <span class="skill-item">Team Leadership (10+)</span>
+          <span class="skill-item">Investor Storytelling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROTOCOLS -->
+<section class="section-full">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Ecosystem</div>
+        <h2 class="section-title">Protocols & projects<br>I've worked with</h2>
+      </div>
+    </div>
+    <div class="protocols-list reveal">
+      <span class="protocol-tag">Uniswap v3</span>
+      <span class="protocol-tag">Metamask</span>
+      <span class="protocol-tag">Defillama</span>
+      <span class="protocol-tag">Unibot</span>
+      <span class="protocol-tag">1inch</span>
+      <span class="protocol-tag">Beefy Finance</span>
+      <span class="protocol-tag">Aave</span>
+      <span class="protocol-tag">Lido</span>
+      <span class="protocol-tag">StraitsX</span>
+      <span class="protocol-tag">Nansen</span>
+      <span class="protocol-tag">Zerion</span>
+      <span class="protocol-tag">DeBank</span>
+      <span class="protocol-tag">MoonPay</span>
+      <span class="protocol-tag">Wormhole</span>
+      <span class="protocol-tag">Orca Finance</span>
+      <span class="protocol-tag">Coinbase Smart Wallets</span>
+      <span class="protocol-tag">Privy</span>
+      <span class="protocol-tag">Magic Eden</span>
+      <span class="protocol-tag">OpenSea</span>
+      <span class="protocol-tag">Rabby Wallet</span>
+      <span class="protocol-tag">Phantom</span>
+      <span class="protocol-tag">Coinglass</span>
+      <span class="protocol-tag">Avalanche</span>
+      <span class="protocol-tag">Arbitrum</span>
+      <span class="protocol-tag">Binance Smart Chain</span>
+      <span class="protocol-tag">Polygon</span>
+      <span class="protocol-tag">Optimism</span>
+      <span class="protocol-tag">Base</span>
+      <span class="protocol-tag">Solana</span>
+      <span class="protocol-tag">Polkadot</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-inner">
+    <p class="hero-eyebrow" style="justify-content: center; margin-bottom: 16px; animation: none;">Let's connect</p>
+    <h2 class="contact-title reveal">Looking for a<br>Product Director / VP</h2>
+    <p class="contact-desc reveal">Interested in roles where I can build at the intersection of AI, finance, and crypto. Open to VP of Product, Product Director, and Chief Product Officer conversations.</p>
+    <div class="contact-links reveal">
+      <a href="https://linkedin.com/in/prakhar-agarwal" target="_blank" class="btn-primary">LinkedIn →</a>
+      <a href="mailto:prakhara707@gmail.com" class="btn-secondary">Email me</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 Prakhar Agarwal · Product Leader</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#videos">Videos</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      nav.style.borderBottomColor = 'rgba(201,168,76,0.15)';
+    } else {
+      nav.style.borderBottomColor = 'var(--border)';
+    }
+  });
+
+  // Video placeholder click hint
+  document.querySelectorAll('.video-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const name = card.querySelector('.video-name').textContent;
+      alert(`To add your ${name} video:\n\n1. Host it on Loom or YouTube (unlisted)\n2. Replace the video-placeholder div with an <iframe> embed\n\nExample:\n<iframe src="https://www.loom.com/embed/YOUR_ID" frameborder="0" allowfullscreen></iframe>`);
+    });
+  });
+</script>
+</body>
+</html>
