@@ -1735,16 +1735,6 @@
     .nav-hamburger { display: flex; }
     .hero { padding: 100px 24px 60px; }
     .hero-stats { margin: 28px 0 36px; }
-    /* 2×2 grid on tablet: stats-label is nth-child(1), stat items are nth-child(2–5) */
-    .stat-item { flex: 0 0 50%; border-right: none; border-bottom: 1px solid var(--border); padding: 16px 16px 16px 0; }
-    .stats-label + .stat-item { padding-left: 0; }
-    .stat-item:last-child { border-bottom: none; }
-    /* right column items */
-    .stat-item:nth-child(3),
-    .stat-item:nth-child(5) { padding-left: 16px; border-left: 1px solid var(--border); }
-    /* last row: no bottom border */
-    .stat-item:nth-child(4),
-    .stat-item:nth-child(5) { border-bottom: none; }
     .section, .section-full { padding: 72px 24px; }
     /* timeline reverts to vertical on smaller screens */
     .about-timeline { flex-direction: column; padding-top: 0; gap: 0; }
