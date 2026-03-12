@@ -1378,6 +1378,25 @@
     margin-top: 14px;
   }
 
+  .principle-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 16px;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.55;
+    transition: opacity 0.3s ease;
+  }
+
+  .principle-card:hover .principle-hint,
+  .principle-card.active .principle-hint {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   /* AI TOOLSTACK */
   .tools-grid {
     display: grid;
@@ -1723,7 +1742,13 @@
     .products-grid { grid-template-columns: 1fr; }
     .product-card-half { grid-column: span 1; }
     .product-card-secondary { grid-column: span 1; }
-    .video-group { grid-template-columns: repeat(2, 1fr); }
+    /* Single-column on mobile avoids empty grid cells with odd-count video groups */
+    .video-group { grid-template-columns: 1fr; }
+    /* Reset video-group-5 span overrides on mobile so all cards stack single column */
+    .video-group-5 { grid-template-columns: 1fr; }
+    .video-group-5 .video-card { grid-column: span 1; }
+    .video-group-5 .video-card:nth-child(4),
+    .video-group-5 .video-card:nth-child(5) { grid-column: span 1; }
     .skills-grid { grid-template-columns: 1fr 1fr; }
     .principles-grid { grid-template-columns: 1fr; }
     .tools-grid { grid-template-columns: 1fr; }
@@ -1809,7 +1834,7 @@
       <div class="hero-eyebrow">Product Leader · Singapore</div>
       <h1 class="hero-title"><span id="hero-typed"></span><span class="typing-cursor" aria-hidden="true">|</span></h1>
       <p class="hero-description">
-        I'm Prakhar — a product leader with over a decade specialising in financial and crypto products. I've led consumer products used by hundreds of thousands, and infrastructure products spanning stablecoins, wallets, DeFi protocols, and financial rails for AI agents. I've built product teams from zero and consistently operated at the layer where the hard problems are.
+        I'm Prakhar — a product leader with over a decade specialising in financial and crypto products. I've led consumer products used by hundreds of thousands, and infrastructure products spanning stablecoins, wallets, DeFi, and financial rails for AI agents. I've also built product teams from zero and am good at finding clarity where there isn't much.
       </p>
       <div class="hero-cta">
         <a href="#products" class="btn-primary">View Work ↓</a>
@@ -1915,36 +1940,42 @@
         <div class="principle-number">01</div>
         <h3 class="principle-title">Know the user before knowing the product</h3>
         <p class="principle-desc">The biggest mistakes in product come from building for an assumed user rather than a real one. I spend time understanding who we are building for, their context, their frustrations, and how they actually make decisions, before committing to a direction.</p>
+        <span class="principle-hint">hover to read ↗</span>
       </div>
 
       <div class="principle-card reveal reveal-delay-1">
         <div class="principle-number">02</div>
         <h3 class="principle-title">Complexity is a UX debt</h3>
         <p class="principle-desc">Every layer of complexity we expose is a user we have already lost. I love the challenge of simplifying hard products for consumers, taking something technically dense and making it feel obvious. My job is to absorb the hard parts so the product feels simple.</p>
+        <span class="principle-hint">hover to read ↗</span>
       </div>
 
       <div class="principle-card reveal reveal-delay-2">
         <div class="principle-number">03</div>
         <h3 class="principle-title">Validate before we build</h3>
         <p class="principle-desc">The gap between what users say and what they do is where the real insight lives. I try and push for lightweight validation and prototypes before committing to a build. It's the cheapest way to find out we are wrong.</p>
+        <span class="principle-hint">hover to read ↗</span>
       </div>
 
       <div class="principle-card reveal reveal-delay-1">
         <div class="principle-number">04</div>
         <h3 class="principle-title">Spec before the first mockup</h3>
         <p class="principle-desc">I write the document before the first mockup is drawn. Specs force clarity, surface assumptions nobody had bothered to say out loud, and help teams move faster. They also force the hard decisions early, before they get expensive.</p>
+        <span class="principle-hint">hover to read ↗</span>
       </div>
 
       <div class="principle-card reveal reveal-delay-2">
         <div class="principle-number">05</div>
         <h3 class="principle-title">Saying no is a product strategy</h3>
         <p class="principle-desc">Every yes is a commitment of time, attention, and engineering. The roadmap is defined as much by what we cut as what we ship. This is something I'm still working on, but getting better at.</p>
+        <span class="principle-hint">hover to read ↗</span>
       </div>
 
       <div class="principle-card reveal reveal-delay-3">
         <div class="principle-number">06</div>
         <h3 class="principle-title">Own one number</h3>
         <p class="principle-desc">Every product I run has a north star metric. Everything else is context. Clarity on what success looks like is the difference between a team that ships with purpose and one that just ships.</p>
+        <span class="principle-hint">hover to read ↗</span>
       </div>
 
     </div>
@@ -2330,11 +2361,11 @@
       </div>
 
       <!-- Claude Code -->
-      <div class="tool-card reveal reveal-delay-2">
-        <span class="tool-icon">⌨</span>
+      <div class="tool-card tool-card-openclaw reveal reveal-delay-2">
+        <span class="tool-icon">⌨️</span>
         <div class="tool-category">04. Build &amp; Validate</div>
         <h3 class="tool-name">Claude Code</h3>
-        <p class="tool-desc">I use Claude Code to build prototypes and validate concepts without waiting on engineering. It's changed how I think about the PM-to-eng handoff — and this portfolio is the proof.</p>
+        <p class="tool-desc">I use Claude Code to build prototypes and validate concepts without waiting on engineering. It's changed how I think about the PM-to-eng handoff. This entire portfolio was vibe coded with Claude — every line of it.</p>
       </div>
 
     </div>
@@ -2801,7 +2832,7 @@
 
     // Start immediately — hero-title animation:none so it's visible on load
     const FADE_DELAY = 0;
-    const CHAR_DELAY = 18; // faster typing
+    const CHAR_DELAY = 23; // slightly slower for readability
 
     setTimeout(() => {
       let i = 0;
