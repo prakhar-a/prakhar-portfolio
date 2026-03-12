@@ -689,6 +689,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    isolation: isolate; /* keeps internal z-index contained */
   }
   .video-placeholder.has-thumb::before {
     content: '';
@@ -775,6 +776,7 @@
     display: none;
     position: absolute;
     inset: 0;
+    z-index: 5; /* always above thumbnail overlay */
     background: rgba(26,22,18,0.68);
     flex-direction: column;
     align-items: center;
@@ -1061,19 +1063,31 @@
   }
 
   /* PROTOCOLS */
+  .protocols-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
   .protocols-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
+  }
+  /* Tags hidden by default until expanded */
+  .protocol-tag.proto-hidden {
+    display: none;
+  }
+  .protocols-list.expanded .protocol-tag.proto-hidden {
+    display: inline-flex;
   }
 
   .protocol-tag {
-    padding: 8px 16px;
+    padding: 5px 13px;
     border: 1px solid var(--border);
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     letter-spacing: 0.05em;
-    color: var(--text-dim);
+    color: var(--text-muted);
     transition: all 0.2s;
   }
 
@@ -1082,6 +1096,23 @@
     color: var(--accent);
     background: var(--accent-glow);
   }
+
+  .proto-toggle {
+    background: none;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    align-self: flex-start;
+  }
+  .proto-toggle:hover { opacity: 1; }
 
   /* PRINCIPLES */
   .principles-grid {
@@ -1385,9 +1416,9 @@
   <a href="#" class="nav-logo">Prakhar<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#principles">How I build</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="#videos">Videos</a></li>
-    <li><a href="#principles">How I build</a></li>
     <li><a href="#toolstack">How I work with AI</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -1930,40 +1961,47 @@
     <div class="section-header reveal">
       <div>
         <div class="section-tag">Ecosystem</div>
-        <h2 class="section-title">Protocols & projects<br>I've worked with</h2>
+        <h2 class="section-title">Protocols &amp; integrations</h2>
       </div>
     </div>
-    <div class="protocols-list reveal">
-      <span class="protocol-tag">Uniswap v3</span>
-      <span class="protocol-tag">Metamask</span>
-      <span class="protocol-tag">Defillama</span>
-      <span class="protocol-tag">Unibot</span>
-      <span class="protocol-tag">1inch</span>
-      <span class="protocol-tag">Beefy Finance</span>
-      <span class="protocol-tag">Aave</span>
-      <span class="protocol-tag">Lido</span>
-      <span class="protocol-tag">StraitsX</span>
-      <span class="protocol-tag">Nansen</span>
-      <span class="protocol-tag">Zerion</span>
-      <span class="protocol-tag">DeBank</span>
-      <span class="protocol-tag">MoonPay</span>
-      <span class="protocol-tag">Wormhole</span>
-      <span class="protocol-tag">Orca Finance</span>
-      <span class="protocol-tag">Coinbase Smart Wallets</span>
-      <span class="protocol-tag">Privy</span>
-      <span class="protocol-tag">Magic Eden</span>
-      <span class="protocol-tag">OpenSea</span>
-      <span class="protocol-tag">Rabby Wallet</span>
-      <span class="protocol-tag">Phantom</span>
-      <span class="protocol-tag">Coinglass</span>
-      <span class="protocol-tag">Avalanche</span>
-      <span class="protocol-tag">Arbitrum</span>
-      <span class="protocol-tag">Binance Smart Chain</span>
-      <span class="protocol-tag">Polygon</span>
-      <span class="protocol-tag">Optimism</span>
-      <span class="protocol-tag">Base</span>
-      <span class="protocol-tag">Solana</span>
-      <span class="protocol-tag">Polkadot</span>
+    <div class="protocols-wrap reveal">
+      <div class="protocols-list" id="protocolsList">
+        <!-- First 10 always visible -->
+        <span class="protocol-tag">Uniswap v3</span>
+        <span class="protocol-tag">Aave</span>
+        <span class="protocol-tag">Wormhole</span>
+        <span class="protocol-tag">M0 Protocol</span>
+        <span class="protocol-tag">MOCA Network</span>
+        <span class="protocol-tag">Metamask</span>
+        <span class="protocol-tag">Coinbase Smart Wallets</span>
+        <span class="protocol-tag">Privy</span>
+        <span class="protocol-tag">StraitsX</span>
+        <span class="protocol-tag">1inch</span>
+        <!-- Hidden until expanded -->
+        <span class="protocol-tag proto-hidden">Defillama</span>
+        <span class="protocol-tag proto-hidden">Unibot</span>
+        <span class="protocol-tag proto-hidden">Beefy Finance</span>
+        <span class="protocol-tag proto-hidden">Lido</span>
+        <span class="protocol-tag proto-hidden">Nansen</span>
+        <span class="protocol-tag proto-hidden">Zerion</span>
+        <span class="protocol-tag proto-hidden">DeBank</span>
+        <span class="protocol-tag proto-hidden">MoonPay</span>
+        <span class="protocol-tag proto-hidden">Orca Finance</span>
+        <span class="protocol-tag proto-hidden">Magic Eden</span>
+        <span class="protocol-tag proto-hidden">OpenSea</span>
+        <span class="protocol-tag proto-hidden">Rabby Wallet</span>
+        <span class="protocol-tag proto-hidden">Phantom</span>
+        <span class="protocol-tag proto-hidden">Coinglass</span>
+        <span class="protocol-tag proto-hidden">Arbitrum</span>
+        <span class="protocol-tag proto-hidden">Avalanche</span>
+        <span class="protocol-tag proto-hidden">Binance Smart Chain</span>
+        <span class="protocol-tag proto-hidden">Polygon</span>
+        <span class="protocol-tag proto-hidden">Optimism</span>
+        <span class="protocol-tag proto-hidden">Base</span>
+        <span class="protocol-tag proto-hidden">Solana</span>
+        <span class="protocol-tag proto-hidden">Polkadot</span>
+      </div>
+      <button class="proto-toggle" id="protoToggle" aria-expanded="false">+ Show all 32</button>
     </div>
   </div>
 </section>
@@ -2054,9 +2092,9 @@
   <div class="footer-copy">© 2026 Prakhar Agarwal · Product Leader</div>
   <div class="footer-links">
     <a href="#about">About</a>
+    <a href="#principles">How I build</a>
     <a href="#products">Products</a>
     <a href="#videos">Videos</a>
-    <a href="#principles">How I build</a>
     <a href="#toolstack">How I work with AI</a>
     <a href="#contact">Contact</a>
   </div>
@@ -2336,18 +2374,37 @@
     setTimeout(() => document.getElementById('pwEmailInput').focus(), 150);
   });
 
-  // ── Loom thumbnails ──────────────────────────────────────────────────────
+  // ── Protocols toggle ────────────────────────────────────────────────────
+  (function() {
+    const btn  = document.getElementById('protoToggle');
+    const list = document.getElementById('protocolsList');
+    if (!btn || !list) return;
+    const total  = list.querySelectorAll('.protocol-tag').length;
+    const hidden = list.querySelectorAll('.proto-hidden').length;
+    btn.textContent = `+ Show all ${total}`;
+    btn.addEventListener('click', () => {
+      const expanded = list.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', expanded);
+      btn.textContent = expanded ? '− Show less' : `+ Show all ${total}`;
+    });
+  })();
+
+  // ── Loom thumbnails via oEmbed ───────────────────────────────────────────
   (function initVideoThumbnails() {
     document.querySelectorAll('.video-card[data-loom]').forEach(card => {
       try {
-        const shareUrl = atob(card.dataset.loom);
-        const videoId  = shareUrl.split('/share/')[1]?.split('?')[0];
-        if (!videoId) return;
+        const shareUrl   = atob(card.dataset.loom);
         const placeholder = card.querySelector('.video-placeholder');
         if (!placeholder) return;
-        const thumbUrl = `https://cdn.loom.com/sessions/thumbnails/${videoId}/thumbnail.gif`;
-        placeholder.style.backgroundImage = `url(${thumbUrl})`;
-        placeholder.classList.add('has-thumb');
+        const oEmbedUrl  = `https://www.loom.com/v1/oembed?url=${encodeURIComponent(shareUrl)}&format=json`;
+        fetch(oEmbedUrl)
+          .then(r => r.ok ? r.json() : null)
+          .then(data => {
+            if (!data?.thumbnail_url) return;
+            placeholder.style.backgroundImage = `url(${data.thumbnail_url})`;
+            placeholder.classList.add('has-thumb');
+          })
+          .catch(() => {});
       } catch(e) {}
     });
   })();
