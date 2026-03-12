@@ -549,6 +549,23 @@
     gap: 6px;
   }
 
+  .product-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s, gap 0.2s;
+  }
+
+  .product-card-link:hover { color: var(--text); gap: 8px; }
+
   .tag {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.6rem;
@@ -1611,7 +1628,7 @@
           </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-year">Earlier</div>
+          <div class="timeline-year">2014–2022</div>
           <div class="timeline-content">
             <div class="timeline-role">Product Analyst &amp; Engineering Roles</div>
             <div class="timeline-company">Thought Machine · Ubisoft · Credit Suisse</div>
@@ -1706,6 +1723,7 @@
           <span class="tag">Payments</span>
           <span class="tag">Commerce</span>
         </div>
+        <a href="#videos" data-video-tab="wallets" class="product-card-link">Watch Demo →</a>
       </div>
 
       <!-- 02: USD8 -->
@@ -1741,6 +1759,7 @@
           <span class="tag tag-highlight">Smart Wallet</span>
           <span class="tag">Embedded Finance</span>
         </div>
+        <a href="https://wallet.sandbox.air3.com/wallet" target="_blank" rel="noopener noreferrer" class="product-card-link">Try it →</a>
       </div>
 
       <!-- 04: KyberSwap Trading -->
@@ -1758,6 +1777,7 @@
           <span class="tag tag-highlight">DeFi</span>
           <span class="tag">Multi-chain</span>
         </div>
+        <a href="https://kyberswap.com/" target="_blank" rel="noopener noreferrer" class="product-card-link">Visit →</a>
       </div>
 
       <!-- ROW 3: Secondary trio -->
@@ -1776,6 +1796,7 @@
           <span class="tag tag-highlight">Analytics</span>
           <span class="tag">Trading</span>
         </div>
+        <a href="#videos" data-video-tab="trading" class="product-card-link">Watch Demo →</a>
       </div>
 
       <!-- 06: Proof of Data Staking -->
@@ -1793,6 +1814,7 @@
           <span class="tag">Staking</span>
           <span class="tag">Tokenomics</span>
         </div>
+        <a href="#videos" data-video-tab="tokens" class="product-card-link">Watch Demo →</a>
       </div>
 
       <!-- 07: Developer APIs, SDKs & Widgets -->
@@ -1803,12 +1825,13 @@
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
         <div class="product-card-number">07</div>
-        <h3 class="product-card-name">Developer APIs, SDKs &amp; Widgets</h3>
+        <h3 class="product-card-name">Trading APIs, SDK and Widgets</h3>
         <p class="product-card-desc">Trading APIs, SDKs, and embeddable widgets I led for partners at KyberSwap. Used by 50+ integrations including MetaMask, DefiLlama, and DexScreener.</p>
         <div class="product-card-tags">
           <span class="tag tag-highlight">APIs</span>
           <span class="tag">SDK</span>
         </div>
+        <a href="https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator/developer-guides" target="_blank" rel="noopener noreferrer" class="product-card-link">View Docs →</a>
       </div>
 
     </div>
@@ -2237,6 +2260,16 @@
     const target = document.getElementById(id);
     if (!target) return;
     e.preventDefault();
+    // If link specifies a video tab, activate it before scrolling
+    const videoTab = link.dataset.videoTab;
+    if (videoTab) {
+      document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.video-tab-panel').forEach(p => p.classList.remove('active'));
+      const btn = document.querySelector(`.video-tab[data-tab="${videoTab}"]`);
+      if (btn) btn.classList.add('active');
+      const panel = document.querySelector(`.video-tab-panel[data-panel="${videoTab}"]`);
+      if (panel) panel.classList.add('active');
+    }
     smoothScrollTo(target, 850);
   });
 
