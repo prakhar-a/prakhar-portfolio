@@ -470,7 +470,7 @@
   /* PRODUCTS */
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
@@ -600,22 +600,26 @@
     50% { opacity: 0.5; }
   }
 
-  /* FEATURED PRODUCT (WIDE CARD) */
-  .product-card-featured {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+  /* PRODUCT CARD LAYOUT VARIANTS */
+  /* Half-width cards: rows 1 & 2 (span 3 of 6 cols) */
+  .product-card-half {
+    grid-column: span 3;
   }
 
-  .product-card-featured .product-metrics {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 16px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-    margin-top: 20px;
+  /* Secondary cards: row 3 — compact, quieter (span 2 of 6 cols) */
+  .product-card-secondary {
+    grid-column: span 2;
+    background: var(--bg2);
+    padding: 28px 24px;
+  }
+
+  .product-card-secondary .product-card-name {
+    font-size: 1.05rem;
+  }
+
+  .product-card-secondary .product-card-desc {
+    font-size: 0.8rem;
+    margin-bottom: 14px;
   }
 
   .metric {
@@ -1442,7 +1446,8 @@
     .timeline-year { position: static; min-width: 80px; padding-top: 2px; }
     .timeline-content { padding-top: 0; }
     .products-grid { grid-template-columns: repeat(2, 1fr); }
-    .product-card-featured { grid-column: span 2; }
+    .product-card-half { grid-column: span 1; }
+    .product-card-secondary { grid-column: span 1; }
     .video-group { grid-template-columns: repeat(2, 1fr); }
     .skills-grid { grid-template-columns: repeat(2, 1fr); }
     .principles-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1453,7 +1458,8 @@
   @media (max-width: 640px) {
     .nav-links { display: none; }
     .products-grid { grid-template-columns: 1fr; }
-    .product-card-featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .product-card-half { grid-column: span 1; }
+    .product-card-secondary { grid-column: span 1; background: var(--bg2); }
     .video-group { grid-template-columns: repeat(2, 1fr); }
     .skills-grid { grid-template-columns: 1fr 1fr; }
     .principles-grid { grid-template-columns: 1fr; }
@@ -1654,170 +1660,134 @@
     <div class="section-header reveal">
       <div>
         <div class="section-tag">Products</div>
-        <h2 class="section-title">Work I've shipped</h2>
+        <h2 class="section-title">Work I've Shipped</h2>
       </div>
-      <p class="section-subtitle">DeFi protocols, trading tools, financial infrastructure, and AI-native applications — across multiple chains and industries.</p>
+      <p class="section-subtitle">Financial rails, stablecoins, trading tools, and AI-native applications.</p>
     </div>
 
     <div class="products-grid">
 
-      <!-- FEATURED: AIR Money -->
-      <div class="product-card product-card-featured reveal">
-        <div>
-          <div class="product-card-company">Animoca Brands</div>
-          <div class="product-card-status">
-            <span class="status-dot building"></span>
-            <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">In Development</span>
-          </div>
-          <div class="product-card-number">01</div>
-          <h3 class="product-card-name">AIR Money — Financial OS for Agentic Economy</h3>
-          <p class="product-card-desc">Building the financial infrastructure layer for AI agents — programmable wallets, policy engines, and settlement rails. Positioning AIR Money as the "Stripe for AI agents" with MAS-regulated infrastructure and yield-bearing stablecoin (USD8) at its core.</p>
-          <div class="product-card-tags">
-            <span class="tag tag-highlight">Agentic Finance</span>
-            <span class="tag tag-highlight">Stablecoin</span>
-            <span class="tag">MCP Server</span>
-            <span class="tag">TEE/Enclave</span>
-            <span class="tag">MAS Regulated</span>
-            <span class="tag">B2B2C</span>
-          </div>
-        </div>
-        <div>
-          <div class="product-metrics">
-            <div class="metric">
-              <span class="metric-val">USD8</span>
-              <span class="metric-label">Yield-bearing stablecoin on M0 infrastructure</span>
-            </div>
-            <div class="metric">
-              <span class="metric-val">MPI</span>
-              <span class="metric-label">MAS Major Payment Institution licensing path</span>
-            </div>
-            <div class="metric">
-              <span class="metric-val">∞</span>
-              <span class="metric-label">Designed for AI agent × human financial flows</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- ROW 1: Featured pair -->
 
-      <!-- USD8 -->
-      <div class="product-card reveal reveal-delay-1">
+      <!-- 01: AIR Money -->
+      <div class="product-card product-card-half reveal">
         <div class="product-card-company">Animoca Brands</div>
-        <div class="product-card-number">02</div>
-        <div class="product-card-status">
-          <span class="status-dot building"></span>
-          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">In Development</span>
-        </div>
-        <h3 class="product-card-name">USD8 Stablecoin</h3>
-        <p class="product-card-desc">Yield-bearing stablecoin built on M0 infrastructure with Wormhole cross-chain bridging. Led PRD, swap widget integration, and enterprise marketing strategy.</p>
-        <div class="product-card-tags">
-          <span class="tag tag-highlight">Stablecoin</span>
-          <span class="tag">MoonPay</span>
-          <span class="tag">Wormhole</span>
-          <span class="tag">DeFi</span>
-        </div>
-      </div>
-
-      <!-- DEX Aggregator -->
-      <div class="product-card reveal">
-        <div class="product-card-company">KyberSwap</div>
-        <div class="product-card-number">03</div>
         <div class="product-card-status">
           <span class="status-dot"></span>
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
-        <h3 class="product-card-name">DEX Aggregator</h3>
-        <p class="product-card-desc">Top-3 aggregator in DeFi with 300+ liquidity source integrations across 14 blockchains. Gave traders superior prices by solving fractured liquidity.</p>
+        <div class="product-card-number">01</div>
+        <h3 class="product-card-name">AIR Money — Financial OS for enterprises and agents</h3>
+        <p class="product-card-desc">A financial infrastructure SDK for enterprises and AI agents. As Product Lead, I designed the modular architecture covering payins, payouts, stablecoin integration, and custom payment rails — built to be embedded directly into any product or workflow. For teams that want to move money without building the infrastructure from scratch.</p>
         <div class="product-card-tags">
+          <span class="tag tag-highlight">Stablecoins</span>
+          <span class="tag tag-highlight">Agentic Finance</span>
+          <span class="tag">Ramps</span>
+          <span class="tag">Payments</span>
+          <span class="tag">Commerce</span>
+        </div>
+      </div>
+
+      <!-- 02: USD8 -->
+      <div class="product-card product-card-half reveal reveal-delay-1">
+        <div class="product-card-company">Animoca Brands</div>
+        <div class="product-card-status">
+          <span class="status-dot building"></span>
+          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Coming Soon</span>
+        </div>
+        <div class="product-card-number">02</div>
+        <h3 class="product-card-name">USD8 — Enterprise Stablecoin</h3>
+        <p class="product-card-desc">A yield-bearing stablecoin built on M0 infrastructure, issued in partnership with MoonPay. As Product Lead, I owned the full stablecoin lifecycle — fiat ramps, issuance and redemption, liquidity and solver inventory, and yield distribution. Designed for enterprises that need a stable, productive unit of account.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Stablecoin</span>
+          <span class="tag">Ramps</span>
+          <span class="tag">Yield</span>
+        </div>
+      </div>
+
+      <!-- ROW 2: Standard pair -->
+
+      <!-- 03: AIR Wallet -->
+      <div class="product-card product-card-half reveal">
+        <div class="product-card-company">Animoca Brands</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
+        </div>
+        <div class="product-card-number">03</div>
+        <h3 class="product-card-name">AIR Wallet — Consumer Crypto Wallet</h3>
+        <p class="product-card-desc">A smart wallet built on AIR Money infrastructure, designed to significantly simplify the crypto experience for everyday users. V1 is live with 300k+ users across South Korea. By abstracting the complexity of web3, it gives web2 users a familiar, intuitive experience without compromising on the underlying capabilities. Also available for enterprise embedding.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Smart Wallet</span>
+          <span class="tag">Embedded Finance</span>
+        </div>
+      </div>
+
+      <!-- 04: KyberSwap Trading -->
+      <div class="product-card product-card-half reveal reveal-delay-1">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
+        </div>
+        <div class="product-card-number">04</div>
+        <h3 class="product-card-name">KyberSwap Trading</h3>
+        <p class="product-card-desc">A multi-chain trading platform I led as Head of Product, scaling it to over $100B in trading volume. Covered aggregation, limit orders, liquidity protocols, and on-chain analytics — one of the most widely used trading products in DeFi.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Trading</span>
           <span class="tag tag-highlight">DeFi</span>
           <span class="tag">Multi-chain</span>
-          <span class="tag">300+ Sources</span>
+        </div>
+      </div>
+
+      <!-- ROW 3: Secondary trio -->
+
+      <!-- 05: KyberAI -->
+      <div class="product-card product-card-secondary reveal">
+        <div class="product-card-company">KyberSwap</div>
+        <div class="product-card-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
+        </div>
+        <div class="product-card-number">05</div>
+        <h3 class="product-card-name">KyberAI — Trading analytics</h3>
+        <p class="product-card-desc">Trading analytics product I led end to end — aggregating on-chain and off-chain data into actionable signals to help traders make faster, more informed decisions.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Analytics</span>
           <span class="tag">Trading</span>
         </div>
       </div>
 
-      <!-- KyberAI -->
-      <div class="product-card reveal reveal-delay-1">
-        <div class="product-card-company">KyberSwap</div>
-        <div class="product-card-number">04</div>
+      <!-- 06: Proof of Data Staking -->
+      <div class="product-card product-card-secondary reveal reveal-delay-1">
+        <div class="product-card-company">Animoca Brands</div>
         <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
+          <span class="status-dot building"></span>
+          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">In Development</span>
         </div>
-        <h3 class="product-card-name">KyberAI Trading Analytics</h3>
-        <p class="product-card-desc">On-chain + off-chain data aggregation across multiple chains condensed into actionable trading insights. Led development of the full analytics product suite.</p>
-        <div class="product-card-tags">
-          <span class="tag tag-highlight">Analytics</span>
-          <span class="tag">On-chain</span>
-          <span class="tag">Trading Intel</span>
-        </div>
-      </div>
-
-      <!-- Limit Orders -->
-      <div class="product-card reveal reveal-delay-2">
-        <div class="product-card-company">KyberSwap</div>
-        <div class="product-card-number">05</div>
-        <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
-        </div>
-        <h3 class="product-card-name">Non-Custodial Limit Orders</h3>
-        <p class="product-card-desc">On-chain limit orders settled by KyberSwap's taker network. First-of-its-kind gasless order cancellation feature — a novel DeFi UX innovation.</p>
-        <div class="product-card-tags">
-          <span class="tag tag-highlight">DeFi</span>
-          <span class="tag">Gasless</span>
-          <span class="tag">Order Book</span>
-        </div>
-      </div>
-
-      <!-- Concentrated Liquidity -->
-      <div class="product-card reveal">
-        <div class="product-card-company">KyberSwap</div>
         <div class="product-card-number">06</div>
+        <h3 class="product-card-name">Proof of Data Staking</h3>
+        <p class="product-card-desc">An identity data staking platform on Moca Chain, built under Animoca Brands. I led the full product — from tokenomics design to build. Uses vote-escrowed mechanics similar to Curve to let token holders vote on identity data pools, direct incentives, and earn rewards based on real identity verification activity. A product I'm extremely proud of.</p>
+        <div class="product-card-tags">
+          <span class="tag tag-highlight">Identity</span>
+          <span class="tag">Staking</span>
+          <span class="tag">Tokenomics</span>
+        </div>
+      </div>
+
+      <!-- 07: Developer APIs, SDKs & Widgets -->
+      <div class="product-card product-card-secondary reveal reveal-delay-2">
+        <div class="product-card-company">KyberSwap</div>
         <div class="product-card-status">
           <span class="status-dot"></span>
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
-        <h3 class="product-card-name">Concentrated Liquidity Protocols</h3>
-        <p class="product-card-desc">Built 2 concentrated liquidity protocols enabling LPs to earn passive income. Developed full yield farming suite with multiple incentive mechanisms.</p>
-        <div class="product-card-tags">
-          <span class="tag tag-highlight">AMM</span>
-          <span class="tag">Liquidity</span>
-          <span class="tag">Yield Farming</span>
-        </div>
-      </div>
-
-      <!-- Technical Products -->
-      <div class="product-card reveal reveal-delay-1">
-        <div class="product-card-company">KyberSwap</div>
         <div class="product-card-number">07</div>
-        <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
-        </div>
-        <h3 class="product-card-name">Developer APIs, SDKs & Widgets</h3>
-        <p class="product-card-desc">Suite of trading APIs and widgets for partners. Integrations with Metamask, Defillama, Unibot and 50+ other protocols using the KyberSwap Aggregator API.</p>
+        <h3 class="product-card-name">Developer APIs, SDKs &amp; Widgets</h3>
+        <p class="product-card-desc">Trading APIs, SDKs, and embeddable widgets I led for partners at KyberSwap. Used by 50+ integrations including MetaMask, DefiLlama, and DexScreener.</p>
         <div class="product-card-tags">
-          <span class="tag tag-highlight">API</span>
+          <span class="tag tag-highlight">APIs</span>
           <span class="tag">SDK</span>
-          <span class="tag">B2B</span>
-          <span class="tag">Developer Tools</span>
-        </div>
-      </div>
-
-      <!-- Portfolio Management -->
-      <div class="product-card reveal reveal-delay-2">
-        <div class="product-card-company">KyberSwap</div>
-        <div class="product-card-number">08</div>
-        <div class="product-card-status">
-          <span class="status-dot amber"></span>
-          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Concept</span>
-        </div>
-        <h3 class="product-card-name">Blockchain Portfolio Manager</h3>
-        <p class="product-card-desc">Risk-focused portfolio management with liquidity profiling and volatility scoring for on-chain traders. Designed for advanced DeFi users.</p>
-        <div class="product-card-tags">
-          <span class="tag tag-highlight">Portfolio</span>
-          <span class="tag">Risk Mgmt</span>
-          <span class="tag">Analytics</span>
         </div>
       </div>
 
