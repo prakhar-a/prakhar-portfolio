@@ -104,6 +104,19 @@
     color: var(--text);
     text-decoration: none;
     letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
   }
 
   .nav-logo span { color: var(--accent); }
@@ -1749,7 +1762,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo-wrap">
-    <a href="#" class="nav-logo">Prakhar<span>.</span></a>
+    <a href="#" class="nav-logo"><img src="images/profile.jpg" alt="Prakhar" class="nav-avatar">Prakhar<span>.</span></a>
     <button class="nav-pronounce" id="pronounceBtn" title="Hear pronunciation" aria-label="Hear how to pronounce Prakhar">
       <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
     </button>
