@@ -684,6 +684,35 @@
     letter-spacing: 0;
   }
 
+  /* Thumbnail background + overlay */
+  .video-placeholder.has-thumb {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .video-placeholder.has-thumb::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.52), rgba(0,0,0,0.72));
+    z-index: 0;
+  }
+  .video-placeholder.has-thumb .video-placeholder-name,
+  .video-placeholder.has-thumb .video-placeholder-desc {
+    position: relative;
+    z-index: 1;
+  }
+  .video-placeholder.has-thumb .video-placeholder-name { color: #fff; }
+  .video-placeholder.has-thumb .video-placeholder-desc { color: rgba(255,255,255,0.72); }
+
+  /* 5-card grid: first row 3, second row 2 centered (no empty slot) */
+  .video-group-5 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .video-group-5 .video-card            { grid-column: span 2; }
+  .video-group-5 .video-card:nth-child(4),
+  .video-group-5 .video-card:nth-child(5) { grid-column: span 3; }
+
   .video-overlay {
     position: absolute;
     inset: 0;
@@ -1751,7 +1780,7 @@
 
       <!-- TAB 2: Trading & DeFi -->
       <div class="video-tab-panel" data-panel="trading">
-        <div class="video-group">
+        <div class="video-group video-group-5">
           <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvZDk4NWIyYjg3NmU0NDQ5NTk0MTdkYzdmYjhjMDI1MzI=">
             <div class="video-placeholder">
               <div class="video-placeholder-name">KyberAI — Token Alpha</div>
@@ -2306,6 +2335,22 @@
     showStep('email');
     setTimeout(() => document.getElementById('pwEmailInput').focus(), 150);
   });
+
+  // ── Loom thumbnails ──────────────────────────────────────────────────────
+  (function initVideoThumbnails() {
+    document.querySelectorAll('.video-card[data-loom]').forEach(card => {
+      try {
+        const shareUrl = atob(card.dataset.loom);
+        const videoId  = shareUrl.split('/share/')[1]?.split('?')[0];
+        if (!videoId) return;
+        const placeholder = card.querySelector('.video-placeholder');
+        if (!placeholder) return;
+        const thumbUrl = `https://cdn.loom.com/sessions/thumbnails/${videoId}/thumbnail.gif`;
+        placeholder.style.backgroundImage = `url(${thumbUrl})`;
+        placeholder.classList.add('has-thumb');
+      } catch(e) {}
+    });
+  })();
 </script>
 </body>
 </html>
