@@ -75,6 +75,12 @@
     border-bottom: 1px solid var(--border);
   }
 
+  .nav-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .nav-logo {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
@@ -84,6 +90,32 @@
   }
 
   .nav-logo span { color: var(--accent); }
+
+  .nav-pronounce {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    border-radius: 3px;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .nav-pronounce:hover { color: var(--accent); }
+  .nav-pronounce svg { width: 13px; height: 13px; fill: currentColor; }
+
+  .nav-pronounce.playing {
+    color: var(--accent);
+    animation: speakerPulse 0.6s ease infinite alternate;
+  }
+
+  @keyframes speakerPulse {
+    from { opacity: 1; }
+    to   { opacity: 0.4; }
+  }
 
   .nav-links {
     display: flex;
@@ -1564,7 +1596,12 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Prakhar<span>.</span></a>
+  <div class="nav-logo-wrap">
+    <a href="#" class="nav-logo">Prakhar<span>.</span></a>
+    <button class="nav-pronounce" id="pronounceBtn" title="Hear pronunciation" aria-label="Hear how to pronounce Prakhar">
+      <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+    </button>
+  </div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#principles">How I build</a></li>
@@ -2300,6 +2337,21 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
   reveals.forEach(el => observer.observe(el));
+
+  // Name pronunciation
+  const pronounceBtn = document.getElementById('pronounceBtn');
+  pronounceBtn.addEventListener('click', () => {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance('Prukh-ur');
+    utter.rate = 0.82;
+    utter.pitch = 1.0;
+    utter.lang = 'en-IN';
+    pronounceBtn.classList.add('playing');
+    utter.onend = () => pronounceBtn.classList.remove('playing');
+    utter.onerror = () => pronounceBtn.classList.remove('playing');
+    window.speechSynthesis.speak(utter);
+  });
 
   // Hamburger menu
   const hamburger = document.getElementById('navHamburger');
