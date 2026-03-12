@@ -34,7 +34,10 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: auto; /* JS handles easing; CSS smooth overrides it */
+    scroll-padding-top: 72px; /* clear fixed nav on anchor jumps */
+  }
 
   body {
     background: var(--bg);
@@ -2173,6 +2176,40 @@
 </div>
 
 <script>
+  // ── Smooth scroll with easeInOutCubic easing ─────────────────────────────
+  function smoothScrollTo(target, duration) {
+    const navH    = document.querySelector('nav')?.offsetHeight || 72;
+    const start   = window.scrollY;
+    const end     = target.getBoundingClientRect().top + window.scrollY - navH - 8;
+    const diff    = end - start;
+    let startTime = null;
+
+    function ease(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function step(now) {
+      if (!startTime) startTime = now;
+      const elapsed  = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, start + diff * ease(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    const id = link.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    smoothScrollTo(target, 850);
+  });
+
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
