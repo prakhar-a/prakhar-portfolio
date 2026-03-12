@@ -380,10 +380,9 @@
 
   /* ABOUT */
   .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 60px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
   }
 
   .about-text p {
@@ -401,30 +400,59 @@
 
   .about-timeline {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
     gap: 0;
+    position: relative;
+    padding-top: 36px;
+  }
+
+  /* Horizontal connecting line */
+  .about-timeline::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 4px;
+    right: 4px;
+    height: 1px;
+    background: var(--border);
   }
 
   .timeline-item {
-    display: flex;
-    gap: 20px;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
+    flex: 1;
     position: relative;
+    padding: 0 24px 0 0;
   }
 
-  .timeline-item:last-child { border-bottom: none; }
+  .timeline-item:last-child { padding-right: 0; }
+
+  /* Gold dot on the line */
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px var(--bg);
+    z-index: 1;
+  }
 
   .timeline-year {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.7rem;
     color: var(--accent);
     letter-spacing: 0.05em;
-    min-width: 80px;
-    padding-top: 2px;
+    position: absolute;
+    top: -28px;
+    left: 0;
   }
 
-  .timeline-content {}
+  .timeline-content {
+    padding-top: 20px;
+  }
 
   .timeline-role {
     font-size: 0.95rem;
@@ -1405,7 +1433,14 @@
     .hero-content { grid-template-columns: 1fr; gap: 48px; }
     .hero-stats { max-width: 420px; }
     .section, .section-full { padding: 72px 24px; }
-    .about-grid { grid-template-columns: 1fr; }
+    /* timeline reverts to vertical on smaller screens */
+    .about-timeline { flex-direction: column; padding-top: 0; gap: 0; }
+    .about-timeline::before { display: none; }
+    .timeline-item { display: flex; flex-direction: row; gap: 20px; flex: unset; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .timeline-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .timeline-item::before { display: none; }
+    .timeline-year { position: static; min-width: 80px; padding-top: 2px; }
+    .timeline-content { padding-top: 0; }
     .products-grid { grid-template-columns: repeat(2, 1fr); }
     .product-card-featured { grid-column: span 2; }
     .video-group { grid-template-columns: repeat(2, 1fr); }
