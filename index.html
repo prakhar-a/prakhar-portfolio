@@ -2311,7 +2311,10 @@
     const hash = await hashStr(val);
     if (hash === PW_HASH) {
       sessionStorage.setItem('demos_unlocked', '1');
-      document.querySelectorAll('.video-card[data-protected]').forEach(c => c.classList.add('unlocked'));
+      document.querySelectorAll('.video-card[data-protected]').forEach(c => {
+        c.classList.add('unlocked');
+        loadThumbForCard(c); // reveal thumbnail now that password is correct
+      });
       closePwModal();
       if (pendingCard) openLoom(pendingCard);
     } else {
@@ -2321,9 +2324,12 @@
     }
   }
 
-  // Restore unlocked state on page load
+  // Restore unlocked state on page load (returning visitor same session)
   if (sessionStorage.getItem('demos_unlocked') === '1') {
-    document.querySelectorAll('.video-card[data-protected]').forEach(c => c.classList.add('unlocked'));
+    document.querySelectorAll('.video-card[data-protected]').forEach(c => {
+      c.classList.add('unlocked');
+      loadThumbForCard(c); // thumbnails only visible after unlock
+    });
   }
 
   // ── Video Tabs ────────────────────────────────────────────────────────
@@ -2390,24 +2396,24 @@
   })();
 
   // ── Loom thumbnails via oEmbed ───────────────────────────────────────────
-  (function initVideoThumbnails() {
-    document.querySelectorAll('.video-card[data-loom]').forEach(card => {
-      try {
-        const shareUrl   = atob(card.dataset.loom);
-        const placeholder = card.querySelector('.video-placeholder');
-        if (!placeholder) return;
-        const oEmbedUrl  = `https://www.loom.com/v1/oembed?url=${encodeURIComponent(shareUrl)}&format=json`;
-        fetch(oEmbedUrl)
-          .then(r => r.ok ? r.json() : null)
-          .then(data => {
-            if (!data?.thumbnail_url) return;
-            placeholder.style.backgroundImage = `url(${data.thumbnail_url})`;
-            placeholder.classList.add('has-thumb');
-          })
-          .catch(() => {});
-      } catch(e) {}
-    });
-  })();
+  function loadThumbForCard(card) {
+    try {
+      const shareUrl    = atob(card.dataset.loom);
+      const placeholder = card.querySelector('.video-placeholder');
+      if (!placeholder || placeholder.classList.contains('has-thumb')) return;
+      fetch(`https://www.loom.com/v1/oembed?url=${encodeURIComponent(shareUrl)}&format=json`)
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (!data?.thumbnail_url) return;
+          placeholder.style.backgroundImage = `url(${data.thumbnail_url})`;
+          placeholder.classList.add('has-thumb');
+        })
+        .catch(() => {});
+    } catch(e) {}
+  }
+
+  // On page load: only load thumbnails for public (non-protected) cards
+  document.querySelectorAll('.video-card[data-loom]:not([data-protected])').forEach(loadThumbForCard);
 </script>
 </body>
 </html>
