@@ -1181,6 +1181,7 @@
     position: relative;
     transition: background 0.3s;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .principle-card::after {
@@ -1196,8 +1197,11 @@
     transition: transform 0.3s ease;
   }
 
-  .principle-card:hover { background: var(--bg2); }
-  .principle-card:hover::after { transform: scaleY(1); }
+  .principle-card:hover,
+  .principle-card.active { background: var(--bg2); }
+
+  .principle-card:hover::after,
+  .principle-card.active::after { transform: scaleY(1); }
 
   .principle-number {
     font-family: 'Montserrat', sans-serif;
@@ -1212,7 +1216,7 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 1.2rem;
     color: var(--text);
-    margin-bottom: 12px;
+    margin-bottom: 0;
     line-height: 1.2;
   }
 
@@ -1221,6 +1225,18 @@
     color: var(--text-dim);
     font-weight: 300;
     line-height: 1.75;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+  }
+
+  .principle-card:hover .principle-desc,
+  .principle-card.active .principle-desc {
+    max-height: 300px;
+    opacity: 1;
+    margin-top: 14px;
   }
 
   /* AI TOOLSTACK */
@@ -2218,6 +2234,15 @@
     if (!target) return;
     e.preventDefault();
     smoothScrollTo(target, 850);
+  });
+
+  // Principle cards: toggle description on click
+  document.querySelectorAll('.principle-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const isActive = card.classList.contains('active');
+      document.querySelectorAll('.principle-card.active').forEach(c => c.classList.remove('active'));
+      if (!isActive) card.classList.add('active');
+    });
   });
 
   // Scroll reveal
