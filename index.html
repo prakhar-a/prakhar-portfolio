@@ -1531,6 +1531,23 @@
   .hero-cta { animation: fadeInUp 0.8s ease 0.5s both; }
   .hero-stats { animation: fadeInUp 0.8s ease 0.3s both; }
 
+  @keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .typing-cursor {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 300;
+    animation: blink-cursor 0.85s step-end infinite;
+    margin-left: 2px;
+  }
+
+  .typing-cursor.done {
+    animation: blink-cursor 0.85s step-end infinite;
+  }
+
   /* SCROLLBAR */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -1694,7 +1711,7 @@
   <div class="hero-content">
     <div class="hero-left">
       <div class="hero-eyebrow">Product Leader · Singapore</div>
-      <h1 class="hero-title">Building products at the edge of how money moves today</h1>
+      <h1 class="hero-title"><span id="hero-typed"></span><span class="typing-cursor" aria-hidden="true">|</span></h1>
       <p class="hero-description">
         I'm Prakhar — a product leader with over a decade specialising in financial and crypto products. I've led consumer products used by hundreds of thousands, and infrastructure products spanning stablecoins, wallets, DeFi protocols, and financial rails for AI agents. I've built product teams from zero and consistently operated at the layer where the hard problems are.
       </p>
@@ -2659,6 +2676,32 @@
 
   // On page load: only load thumbnails for public (non-protected) cards
   document.querySelectorAll('.video-card[data-loom]:not([data-protected])').forEach(loadThumbForCard);
+
+  // ── Hero typing animation ─────────────────────────────────────────────────
+  (function() {
+    const text   = 'Building products at the edge of how money moves today';
+    const target = document.getElementById('hero-typed');
+    const cursor = document.querySelector('.typing-cursor');
+    if (!target || !cursor) return;
+
+    // Wait for the hero-title fadeInUp to finish (0.2s delay + 0.8s duration = 1s)
+    const FADE_DELAY = 1050;
+    const CHAR_DELAY = 38;
+
+    setTimeout(() => {
+      let i = 0;
+      function typeNext() {
+        if (i <= text.length) {
+          target.textContent = text.slice(0, i);
+          i++;
+          if (i <= text.length) {
+            setTimeout(typeNext, CHAR_DELAY);
+          }
+        }
+      }
+      typeNext();
+    }, FADE_DELAY);
+  })();
 </script>
 </body>
 </html>
