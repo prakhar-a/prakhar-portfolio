@@ -25,9 +25,9 @@
     --text: #1a1612;
     --text-muted: #a09078;
     --text-dim: #7a6e60;
-    --accent: #b8892e;
-    --accent-dim: #7a5c1e;
-    --accent-glow: rgba(184,137,46,0.12);
+    --accent: #d4a535;
+    --accent-dim: #a07820;
+    --accent-glow: rgba(212,165,53,0.15);
     --red: #c94c4c;
     --green: #3a8a57;
   }
@@ -261,7 +261,7 @@
   }
 
   .btn-primary:hover {
-    background: #e0bb62;
+    background: #f0d050;
     transform: translateY(-1px);
   }
 
@@ -299,7 +299,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 3px;
     background: linear-gradient(90deg, var(--accent), transparent);
   }
 
@@ -324,9 +324,10 @@
 
   .stat-icon {
     flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--border);
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--accent-dim);
+    background: var(--accent-glow);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,7 +339,8 @@
 
   .stat-value {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    font-weight: 700;
     color: var(--accent);
     line-height: 1;
     margin-bottom: 4px;
@@ -499,6 +501,16 @@
     font-family: 'Montserrat', sans-serif;
   }
 
+  /* Blinking dot for current role */
+  .timeline-item-current::before {
+    animation: timelineBlink 1.6s ease-in-out infinite;
+  }
+
+  @keyframes timelineBlink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 2px var(--bg), 0 0 8px var(--accent); }
+    50% { opacity: 0.35; box-shadow: 0 0 0 2px var(--bg); }
+  }
+
   /* PRODUCTS */
   .products-grid {
     display: grid;
@@ -609,7 +621,7 @@
   }
 
   .product-card-featured {
-    box-shadow: inset -4px 0 0 var(--accent-dim);
+    box-shadow: inset -2px 0 0 var(--accent-dim);
   }
 
   .product-card-status {
@@ -664,6 +676,40 @@
     padding: 28px 24px;
   }
 
+  /* Hidden product cards (revealed via Show More) */
+  .product-card-more {
+    display: none;
+  }
+
+  /* Show More CTA */
+  .products-show-more {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .products-show-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 28px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .products-show-more-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
   .product-card-secondary .product-card-name {
     font-size: 1.05rem;
   }
@@ -704,7 +750,7 @@
   }
   .video-tab {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -1606,7 +1652,7 @@
     <li><a href="#principles">How I build</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="#videos">Videos</a></li>
-    <li><a href="#toolstack">How I work with AI</a></li>
+    <li><a href="#toolstack">Working with AI</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-social">
@@ -1637,7 +1683,7 @@
   <a href="#principles" class="nav-mobile-link">How I build</a>
   <a href="#products" class="nav-mobile-link">Products</a>
   <a href="#videos" class="nav-mobile-link">Videos</a>
-  <a href="#toolstack" class="nav-mobile-link">How I work with AI</a>
+  <a href="#toolstack" class="nav-mobile-link">Working with AI</a>
   <a href="#contact" class="nav-mobile-link">Contact</a>
 </div>
 
@@ -1714,7 +1760,7 @@
         <p>Two things occupy me right now. First: AI agents are becoming autonomous actors, and the financial infrastructure for that doesn't yet fully exist — payment rails, programmable wallets, policy engines. This is something I'm actively exploring. Second: I've embedded AI deeply into my own product workflows, making me a faster product manager and giving me the space to prototype and validate concepts independently.</p>
       </div>
       <div class="about-timeline reveal reveal-delay-2">
-        <div class="timeline-item">
+        <div class="timeline-item timeline-item-current">
           <div class="timeline-year">2024–Now</div>
           <div class="timeline-content">
             <div class="timeline-role">Director of Product</div>
@@ -1885,7 +1931,7 @@
       <!-- ROW 3: Secondary trio -->
 
       <!-- 05: KyberAI -->
-      <div class="product-card product-card-secondary reveal">
+      <div class="product-card product-card-secondary product-card-more reveal">
 
         <div class="product-card-status">
           <span class="status-dot"></span>
@@ -1902,7 +1948,7 @@
       </div>
 
       <!-- 06: Proof of Data Staking -->
-      <div class="product-card product-card-secondary reveal reveal-delay-1">
+      <div class="product-card product-card-secondary product-card-more reveal reveal-delay-1">
 
         <div class="product-card-status">
           <span class="status-dot building"></span>
@@ -1910,7 +1956,7 @@
         </div>
         <div class="product-card-number">06</div>
         <h3 class="product-card-name">Proof of Data Staking</h3>
-        <p class="product-card-desc">An identity data staking platform built under Animoca Brands. I led the full product — from tokenomics design to build. Uses vote-escrowed mechanics like Curve where users vote on identity data, direct incentives, and earn rewards from verifications. A product I'm proud of.</p>
+        <p class="product-card-desc">An identity data staking platform. I led the full product — from tokenomics design to build. Uses vote-escrowed mechanics like Curve where users vote on identity data, direct incentives, and earn rewards from verifications. A product I'm proud of.</p>
         <div class="product-card-tags">
           <span class="tag">Identity</span>
           <span class="tag">Staking</span>
@@ -1920,7 +1966,7 @@
       </div>
 
       <!-- 07: Developer APIs, SDKs & Widgets -->
-      <div class="product-card product-card-secondary reveal reveal-delay-2">
+      <div class="product-card product-card-secondary product-card-more reveal reveal-delay-2">
 
         <div class="product-card-status">
           <span class="status-dot"></span>
@@ -1936,6 +1982,10 @@
         <a href="https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator/developer-guides" target="_blank" rel="noopener noreferrer" class="product-card-link">View Docs →</a>
       </div>
 
+    </div>
+
+    <div class="products-show-more">
+      <button class="products-show-more-btn" id="productsShowMore">Show more projects ↓</button>
     </div>
   </div>
 </section>
@@ -2136,7 +2186,7 @@
     <div class="section-header reveal">
       <div>
         <div class="section-tag">AI Stack</div>
-        <h2 class="section-title">How I work with AI</h2>
+        <h2 class="section-title">Working with AI</h2>
       </div>
       <p class="section-subtitle">AI tools and workflows powering my day-to-day as a product leader.</p>
     </div>
@@ -2147,7 +2197,7 @@
         <span class="tool-icon">◎</span>
         <div class="tool-category">01. Ideation</div>
         <h3 class="tool-name">WisprFlow</h3>
-        <p class="tool-desc">We speak at twice the speed we type. I use WisprFlow to dictate structured thoughts into clean, formatted prompts, turning rough ideas into precise inputs from the earliest stage of ideation. It's the fastest way to get a concept out of my head.</p>
+        <p class="tool-desc">We speak 2× faster than we type. I use WisprFlow to dictate ideas straight into clean prompts — getting concepts out of my head and into a format I can act on immediately.</p>
       </div>
 
       <!-- Notion AI -->
@@ -2155,7 +2205,7 @@
         <span class="tool-icon">◻</span>
         <div class="tool-category">02. Planning, Specs &amp; Research</div>
         <h3 class="tool-name">Notion AI</h3>
-        <p class="tool-desc">My PRD home base and research layer. I use Notion AI to structure problem statements, surface unstated assumptions, and generate full product spec. By the time I hand off to engineering, the brief is tight and the assumptions are already challenged.</p>
+        <p class="tool-desc">My PRD home base. I use Notion AI to structure problem statements, surface assumptions, and generate specs — so by the time it reaches engineering, the brief is tight and the gaps are already closed.</p>
       </div>
 
       <!-- Pencil -->
@@ -2163,7 +2213,7 @@
         <span class="tool-icon">✦</span>
         <div class="tool-category">03. Discovery &amp; Prototyping</div>
         <h3 class="tool-name">Pencil</h3>
-        <p class="tool-desc">AI-generated UI mockups from a text prompt. I use Pencil during discovery to visualise product ideas before involving design. It helps turn a concept into something tangible fast enough to get real feedback early.</p>
+        <p class="tool-desc">AI-generated mockups from a text prompt. I use Pencil to visualise ideas during discovery — making concepts tangible before involving design, fast enough to get real feedback early.</p>
       </div>
 
       <!-- Claude Code -->
@@ -2171,7 +2221,7 @@
         <span class="tool-icon">⌨</span>
         <div class="tool-category">04. Build &amp; Validate</div>
         <h3 class="tool-name">Claude Code</h3>
-        <p class="tool-desc">I use Claude Code to build prototypes and validate concepts independently. It's changed how I think about the PM-to-engineering handoff entirely. Still experimenting but finding it powerful.</p>
+        <p class="tool-desc">I use Claude Code to build prototypes and validate concepts without waiting on engineering. It's changed how I think about the PM-to-eng handoff — and this portfolio is the proof.</p>
       </div>
 
     </div>
@@ -2194,13 +2244,13 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2026 Prakhar Agarwal · Product Leader · Vibe coded with Claude</div>
+  <div class="footer-copy">© 2026 Prakhar Agarwal · Vibe coded with Claude ♥</div>
   <div class="footer-links">
     <a href="#about">About</a>
     <a href="#principles">How I build</a>
     <a href="#products">Products</a>
     <a href="#videos">Videos</a>
-    <a href="#toolstack">How I work with AI</a>
+    <a href="#toolstack">Working with AI</a>
     <a href="#contact">Contact</a>
   </div>
 </footer>
@@ -2343,6 +2393,16 @@
       hamburger.setAttribute('aria-expanded', 'false');
     });
   });
+
+  // Show More products
+  const showMoreBtn = document.getElementById('productsShowMore');
+  if (showMoreBtn) {
+    showMoreBtn.addEventListener('click', () => {
+      const moreCards = document.querySelectorAll('.product-card-more');
+      moreCards.forEach(card => { card.style.display = 'block'; });
+      showMoreBtn.parentElement.style.display = 'none';
+    });
+  }
 
   // Nav scroll effect
   const nav = document.querySelector('nav');
