@@ -240,6 +240,12 @@
     pointer-events: none;
   }
 
+  #particle-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
   .hero-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -1840,6 +1846,7 @@
 <section class="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-accent-circle"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
   <div class="hero-content">
     <div class="hero-left">
       <div class="hero-eyebrow">Product Leader · Singapore</div>
@@ -2860,6 +2867,133 @@
       }
       typeNext();
     }, FADE_DELAY);
+  })();
+
+  // ── Hero particle network ─────────────────────────────────────────────────
+  (function () {
+    const canvas = document.getElementById('particle-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // Gold accent matches --accent: #d4a535
+    const RGB = '212,165,53';
+
+    let W, H, nodes = [], raf;
+    let mouse = { x: -9999, y: -9999 };
+
+    const CONNECT_DIST  = 135;
+    const MOUSE_RADIUS  = 200;
+    const MAX_SPEED     = 0.55;
+
+    function nodeCount() { return W < 768 ? 28 : 55; }
+
+    function init() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      W = canvas.width  = rect.width;
+      H = canvas.height = rect.height;
+      nodes = Array.from({ length: nodeCount() }, () => ({
+        x:  Math.random() * W,
+        y:  Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r:  Math.random() * 1.4 + 1.0,
+      }));
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, W, H);
+      const dark      = document.documentElement.getAttribute('data-theme') === 'dark';
+      const nodeAlpha = dark ? 0.22 : 0.17;
+      const edgeAlpha = dark ? 0.11 : 0.08;
+
+      // Update nodes
+      for (const n of nodes) {
+        const mdx = mouse.x - n.x;
+        const mdy = mouse.y - n.y;
+        const md  = Math.hypot(mdx, mdy);
+        if (md < MOUSE_RADIUS && md > 1) {
+          const f = ((MOUSE_RADIUS - md) / MOUSE_RADIUS) * 0.008;
+          n.vx += (mdx / md) * f;
+          n.vy += (mdy / md) * f;
+        }
+        n.vx *= 0.985;
+        n.vy *= 0.985;
+        const spd = Math.hypot(n.vx, n.vy);
+        if (spd > MAX_SPEED) { n.vx = (n.vx / spd) * MAX_SPEED; n.vy = (n.vy / spd) * MAX_SPEED; }
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0) { n.x = 0; n.vx =  Math.abs(n.vx); }
+        if (n.x > W) { n.x = W; n.vx = -Math.abs(n.vx); }
+        if (n.y < 0) { n.y = 0; n.vy =  Math.abs(n.vy); }
+        if (n.y > H) { n.y = H; n.vy = -Math.abs(n.vy); }
+      }
+
+      // Node ↔ Node edges
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+          if (d < CONNECT_DIST) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(${RGB},${(edgeAlpha * (1 - d / CONNECT_DIST)).toFixed(3)})`;
+            ctx.lineWidth = 0.6;
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Mouse ↔ Node edges
+      for (const n of nodes) {
+        const d = Math.hypot(mouse.x - n.x, mouse.y - n.y);
+        if (d < MOUSE_RADIUS) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${RGB},${(edgeAlpha * 1.8 * (1 - d / MOUSE_RADIUS)).toFixed(3)})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+
+      // Nodes
+      for (const n of nodes) {
+        const d = Math.hypot(mouse.x - n.x, mouse.y - n.y);
+        const a = d < MOUSE_RADIUS
+          ? nodeAlpha + nodeAlpha * 0.9 * (1 - d / MOUSE_RADIUS)
+          : nodeAlpha;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${RGB},${a.toFixed(3)})`;
+        ctx.fill();
+      }
+
+      raf = requestAnimationFrame(tick);
+    }
+
+    // Mouse tracking relative to canvas
+    const hero = canvas.parentElement;
+    hero.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
+    }, { passive: true });
+    hero.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
+    // Resize with debounce
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(init, 150);
+    }, { passive: true });
+
+    // Pause when tab hidden
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(raf);
+      else raf = requestAnimationFrame(tick);
+    });
+
+    init();
+    raf = requestAnimationFrame(tick);
   })();
 
   // ── Scroll-to-top button ──────────────────────────────────────────────────
