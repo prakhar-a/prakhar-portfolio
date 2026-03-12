@@ -589,11 +589,43 @@
 
   /* VIDEOS SECTION */
   .videos-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .video-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .video-tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 14px 22px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: -1px;
+    white-space: nowrap;
+  }
+  .video-tab:hover { color: var(--text); }
+  .video-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .video-tab-panel { display: none; }
+  .video-tab-panel.active { display: block; }
+  .video-group {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
+    border-top: none;
   }
 
   .video-card {
@@ -626,6 +658,27 @@
     text-align: center;
     padding: 20px;
     line-height: 1.8;
+  }
+  .video-placeholder-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .video-placeholder-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.55;
+    padding: 0 16px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
   }
 
   .video-overlay {
@@ -725,6 +778,63 @@
   }
 
   /* PASSWORD MODAL */
+  /* ── Video Player Modal ───────────────────────────── */
+  .video-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,8,6,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .video-modal-overlay.active { opacity: 1; pointer-events: all; }
+  .video-modal-inner {
+    position: relative;
+    width: min(900px, 92vw);
+  }
+  .video-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    transition: color 0.15s;
+  }
+  .video-modal-close:hover { color: #fff; }
+  .video-modal-title {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .video-modal-frame {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-modal-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
   .pw-modal-overlay {
     position: fixed;
     inset: 0;
@@ -1215,7 +1325,7 @@
     .about-grid { grid-template-columns: 1fr; }
     .products-grid { grid-template-columns: repeat(2, 1fr); }
     .product-card-featured { grid-column: span 2; }
-    .videos-scroll { grid-template-columns: repeat(2, 1fr); }
+    .video-group { grid-template-columns: repeat(2, 1fr); }
     .skills-grid { grid-template-columns: repeat(2, 1fr); }
     .principles-grid { grid-template-columns: repeat(2, 1fr); }
     .tools-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1226,7 +1336,7 @@
     .nav-links { display: none; }
     .products-grid { grid-template-columns: 1fr; }
     .product-card-featured { grid-column: span 1; grid-template-columns: 1fr; }
-    .videos-scroll { grid-template-columns: repeat(2, 1fr); }
+    .video-group { grid-template-columns: repeat(2, 1fr); }
     .skills-grid { grid-template-columns: 1fr 1fr; }
     .principles-grid { grid-template-columns: 1fr; }
     .tools-grid { grid-template-columns: 1fr; }
@@ -1592,17 +1702,336 @@
         <div class="section-tag">Demo Videos</div>
         <h2 class="section-title">See it in motion</h2>
       </div>
-      <p class="section-subtitle">Product walkthrough videos from KyberSwap — showing real shipped features.</p>
+      <p class="section-subtitle">Real shipped features and unreleased builds — from crypto wallets to DeFi infrastructure.</p>
     </div>
 
     <div class="videos-scroll reveal">
-      <!-- data-loom: set to btoa('https://loom.com/share/YOUR_ID') when ready -->
-      <!-- data-protected="true": add to enable password gate on that card -->
 
-      <div class="video-card" data-protected="true" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvZGVtbzEyMzQ1Njc4OTA=">
-        <div class="video-placeholder">
-          <div class="video-placeholder-text">Limit Orders<br>demo</div>
+      <div class="video-tabs">
+        <button class="video-tab active" data-tab="wallets">Wallet, Infrastructure &amp; Stablecoins</button>
+        <button class="video-tab" data-tab="trading">Trading &amp; DeFi</button>
+        <button class="video-tab" data-tab="tokens">Token Economics</button>
+      </div>
+
+      <!-- TAB 1: Wallet, Infrastructure & Stablecoins -->
+      <div class="video-tab-panel active" data-panel="wallets">
+        <div class="video-group">
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMzNhZWZmNzhiZDU3NGJmYjhmZmQ4MDA2MGUzZTkwMjk=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">AIR Wallet SDK</div>
+              <div class="video-placeholder-desc">Embeddable MPC wallet for enterprises — drop a fully customizable crypto wallet into any app without building from scratch.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">AIR Wallet SDK</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvNDk1NGRiNjkzMzk4NDNkMTlkYTQ5YmJhYWI4NzIzOTk=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">AIR Wallet</div>
+              <div class="video-placeholder-desc">Consumer crypto wallet built for simplicity — send, receive, and manage digital assets without knowing the infrastructure.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">AIR Wallet</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-protected="true" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMjZiODUwYjI0NTg5NGRiYThlMjcxYjdiOWU2YzczMzk=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">USD8 — Enterprise Stablecoin</div>
+              <div class="video-placeholder-desc">Yield-bearing stablecoin for businesses — programmable, dollar-pegged asset for payouts, treasury, and payment flows.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">USD8 — Enterprise Stablecoin</span><span class="video-duration"></span></div>
+          </div>
         </div>
+      </div>
+
+      <!-- TAB 2: Trading & DeFi -->
+      <div class="video-tab-panel" data-panel="trading">
+        <div class="video-group">
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvZDk4NWIyYjg3NmU0NDQ5NTk0MTdkYzdmYjhjMDI1MzI=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">KyberAI — Token Alpha</div>
+              <div class="video-placeholder-desc">AI-powered trading signals from on-chain and market data — spot opportunities before they become obvious.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">KyberAI — Token Alpha</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvYjdjOTVjNmYzMjY2NDg5M2EyNWJkZjI3NTM4ZjY5NTc=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">Trading — Limit Orders</div>
+              <div class="video-placeholder-desc">Price control for decentralized trading — execution precision typically only found on centralized exchanges.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">Trading — Limit Orders</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMTdkZTJkMmRmNGMzNDM5YzkwZDVkMzIwM2Q5NTdlOTE=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">DeFi Liquidity Protocols</div>
+              <div class="video-placeholder-desc">From first deposit to position management — end-to-end UX for concentrated liquidity pools made intuitive.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">DeFi Liquidity Protocols</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvZDdjZjMzOGYyOWQ1NGExMWE2NDg2Y2IxZWVlYmRjZWQ=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">DeFi Liquidity Earnings Dashboard</div>
+              <div class="video-placeholder-desc">Real-time earnings, APY, and position performance across DeFi pools — complex protocol data made actionable.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">DeFi Liquidity Earnings Dashboard</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvNWFiY2I5NDVlNjA2NDBkMzkxNTI5OTljOGE5YmY0NGM=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">Crypto Portfolio Tracker</div>
+              <div class="video-placeholder-desc">Unified view of holdings across wallets and chains — monitor performance without jumping between platforms.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">Crypto Portfolio Tracker</span><span class="video-duration"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Token Economics -->
+      <div class="video-tab-panel" data-panel="tokens">
+        <div class="video-group">
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMmE5YjBhYzQ4NzdmNDAxNTk2MTQ1YjY5YjM1MDRhZWQ=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">NFT-Linked Token Airdrop</div>
+              <div class="video-placeholder-desc">Token distribution that rewards NFT holders — connecting digital ownership to real token value and community loyalty.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">NFT-Linked Token Airdrop</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvYWFiMWE3Mjc4MTNmNDVkZWI3ZjU4MGVhMmJmZWI3YWQ=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">Staking &amp; Token Airdrop</div>
+              <div class="video-placeholder-desc">Lock tokens, accumulate points, burn to claim airdrops — rewards long-term holders with structured distribution.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">Staking &amp; Token Airdrop</span><span class="video-duration"></span></div>
+          </div>
+          <div class="video-card" data-protected="true" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvNTk5ZTljZGVlZGMwNGZiYThmNWYxN2Y3YTUxYmM5YjY=">
+            <div class="video-placeholder">
+              <div class="video-placeholder-name">Proof-of-Data Staking</div>
+              <div class="video-placeholder-desc">ve(3,3) for identity data — lock MOCA, vote on credential pools, earn rewards when credentials are verified.</div>
+            </div>
+            <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
+            <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
+            <div class="video-meta"><span class="video-name">Proof-of-Data Staking</span><span class="video-duration"></span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">AIR Wallet SDK</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvNDk1NGRiNjkzMzk4NDNkMTlkYTQ5YmJhYWI4NzIzOTk=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">AIR Wallet</div>
+          <div class="video-placeholder-desc">Consumer crypto wallet built for simplicity — send, receive, and manage digital assets without knowing the infrastructure.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">AIR Wallet</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-protected="true" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMjZiODUwYjI0NTg5NGRiYThlMjcxYjdiOWU2YzczMzk=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">USD8 — Enterprise Stablecoin</div>
+          <div class="video-placeholder-desc">Yield-bearing stablecoin for businesses — a programmable, dollar-pegged asset for payouts, treasury, and payment flows.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">USD8 — Enterprise Stablecoin</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      </div>
+      <div class="video-group-label">Trading &amp; Decentralized Finance</div>
+      <div class="video-group">
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvZDk4NWIyYjg3NmU0NDQ5NTk0MTdkYzdmYjhjMDI1MzI=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">KyberAI — Token Alpha</div>
+          <div class="video-placeholder-desc">AI-powered trading signals from on-chain and market data — spot opportunities before they become obvious.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">KyberAI — Token Alpha</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvYjdjOTVjNmYzMjY2NDg5M2EyNWJkZjI3NTM4ZjY5NTc=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">Trading — Limit Orders</div>
+          <div class="video-placeholder-desc">Price control for decentralized trading — execution precision typically only found on centralized exchanges.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Trading — Limit Orders</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMTdkZTJkMmRmNGMzNDM5YzkwZDVkMzIwM2Q5NTdlOTE=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">DeFi Liquidity Protocols</div>
+          <div class="video-placeholder-desc">From first deposit to position management — end-to-end UX for concentrated liquidity pools made intuitive.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">DeFi Liquidity Protocols</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvZDdjZjMzOGYyOWQ1NGExMWE2NDg2Y2IxZWVlYmRjZWQ=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">DeFi Liquidity Earnings Dashboard</div>
+          <div class="video-placeholder-desc">Real-time earnings, APY, and position performance across DeFi pools — complex protocol data made actionable.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">DeFi Liquidity Earnings Dashboard</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvNWFiY2I5NDVlNjA2NDBkMzkxNTI5OTljOGE5YmY0NGM=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">Crypto Portfolio Tracker</div>
+          <div class="video-placeholder-desc">Unified view of holdings across wallets and chains — monitor performance without jumping between platforms.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Crypto Portfolio Tracker</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      </div>
+      <div class="video-group-label">Token Economics</div>
+      <div class="video-group">
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMmE5YjBhYzQ4NzdmNDAxNTk2MTQ1YjY5YjM1MDRhZWQ=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">NFT-Linked Token Airdrop</div>
+          <div class="video-placeholder-desc">Token distribution that rewards NFT holders — connecting digital ownership to real token value and community loyalty.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">NFT-Linked Token Airdrop</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvYWFiMWE3Mjc4MTNmNDVkZWI3ZjU4MGVhMmJmZWI3YWQ=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">Staking &amp; Token Airdrop</div>
+          <div class="video-placeholder-desc">Lock tokens, accumulate points, burn to claim airdrops — rewards long-term holders with structured distribution.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Staking &amp; Token Airdrop</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      <div class="video-card" data-protected="true" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvNTk5ZTljZGVlZGMwNGZiYThmNWYxN2Y3YTUxYmM5YjY=">
+        <div class="video-placeholder">
+          <div class="video-placeholder-name">Proof-of-Data Staking</div>
+          <div class="video-placeholder-desc">ve(3,3) for identity data — lock MOCA, vote on credential pools, earn rewards when credentials are verified.</div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
+          <span class="lock-label">Protected</span>
+        </div>
+        <div class="video-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="video-label">Play</span>
+        </div>
+        <div class="video-meta">
+          <span class="video-name">Proof-of-Data Staking</span>
+          <span class="video-duration"></span>
+        </div>
+      </div>
+      </div>
+    </div>
         <div class="lock-overlay">
           <div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div>
           <span class="lock-label">Protected</span>
@@ -1942,6 +2371,17 @@
   </div>
 </footer>
 
+<!-- VIDEO PLAYER MODAL -->
+<div id="videoModal" class="video-modal-overlay" role="dialog" aria-modal="true">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="videoClose" aria-label="Close">×</button>
+    <div class="video-modal-title" id="videoModalTitle"></div>
+    <div class="video-modal-frame">
+      <iframe id="videoIframe" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+    </div>
+  </div>
+</div>
+
 <!-- PASSWORD MODAL -->
 <div id="pwModal" class="pw-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pwModalTitle">
   <div class="pw-modal">
@@ -2053,8 +2493,23 @@
   function openLoom(card) {
     const encoded = card.dataset.loom;
     if (!encoded) return;
-    try { window.open(atob(encoded), '_blank', 'noopener,noreferrer'); }
+    try {
+      const shareUrl = atob(encoded);
+      // Convert share URL to embed URL: /share/ID → /embed/ID
+      const embedUrl = shareUrl.replace('loom.com/share/', 'loom.com/embed/').split('?')[0];
+      const title = card.querySelector('.video-name')?.textContent || '';
+      document.getElementById('videoModalTitle').textContent = title;
+      document.getElementById('videoIframe').src = embedUrl;
+      document.getElementById('videoModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
     catch(e) { console.warn('Invalid loom URL on card:', card); }
+  }
+
+  function closeVideoModal() {
+    document.getElementById('videoModal').classList.remove('active');
+    document.getElementById('videoIframe').src = ''; // stop video
+    document.body.style.overflow = '';
   }
 
   // ─── RATE LIMITING (3 requests per email per 24h) ─────────────────────
@@ -2142,6 +2597,17 @@
     document.querySelectorAll('.video-card[data-protected]').forEach(c => c.classList.add('unlocked'));
   }
 
+  // ── Video Tabs ────────────────────────────────────────────────────────
+  document.querySelectorAll('.video-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.video-tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.video-tab-panel[data-panel="${target}"]`).classList.add('active');
+    });
+  });
+
   document.querySelectorAll('.video-card').forEach(card => {
     card.addEventListener('click', () => {
       const isProtected = card.hasAttribute('data-protected');
@@ -2152,6 +2618,14 @@
         openLoom(card);
       }
     });
+  });
+
+  document.getElementById('videoClose').addEventListener('click', closeVideoModal);
+  document.getElementById('videoModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('videoModal')) closeVideoModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeVideoModal(); closePwModal(); }
   });
 
   document.getElementById('pwClose').addEventListener('click', closePwModal);
