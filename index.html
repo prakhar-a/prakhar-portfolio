@@ -1293,7 +1293,7 @@
   /* AI TOOLSTACK */
   .tools-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
@@ -1512,7 +1512,6 @@
     .video-group { grid-template-columns: repeat(2, 1fr); }
     .skills-grid { grid-template-columns: repeat(2, 1fr); }
     .principles-grid { grid-template-columns: repeat(2, 1fr); }
-    .tools-grid { grid-template-columns: repeat(2, 1fr); }
     footer { flex-direction: column; gap: 16px; text-align: center; }
   }
 
@@ -2137,62 +2136,42 @@
     <div class="section-header reveal">
       <div>
         <div class="section-tag">AI Stack</div>
-        <h2 class="section-title">How I work<br>with AI</h2>
+        <h2 class="section-title">How I work with AI</h2>
       </div>
-      <p class="section-subtitle">The tools and agents powering my day-to-day as a product leader in 2025.</p>
+      <p class="section-subtitle">AI tools and workflows powering my day-to-day as a product leader.</p>
     </div>
     <div class="tools-grid">
 
-      <!-- OpenClaw Agent -->
-      <div class="tool-card tool-card-openclaw reveal">
-        <span class="tool-icon">⟡</span>
-        <div class="tool-category">Custom Agent · Built by me</div>
-        <h3 class="tool-name">OpenClaw Agent</h3>
-        <p class="tool-desc">I built my own Claude-based AI agent to automate product management work — drafting user stories, generating PRD sections, running competitive research, and synthesizing user feedback. It's my live experiment in what agentic product management looks like in practice.</p>
-        <span class="tool-badge">
-          <span class="status-dot building"></span>
-          Active · Claude-powered
-        </span>
+      <!-- WisprFlow -->
+      <div class="tool-card reveal">
+        <span class="tool-icon">◎</span>
+        <div class="tool-category">01. Ideation</div>
+        <h3 class="tool-name">WisprFlow</h3>
+        <p class="tool-desc">We speak at twice the speed we type. I use WisprFlow to dictate structured thoughts into clean, formatted prompts, turning rough ideas into precise inputs from the earliest stage of ideation. It's the fastest way to get a concept out of my head.</p>
       </div>
 
       <!-- Notion AI -->
       <div class="tool-card reveal reveal-delay-1">
         <span class="tool-icon">◻</span>
-        <div class="tool-category">Knowledge & Specs</div>
+        <div class="tool-category">02. Planning, Specs &amp; Research</div>
         <h3 class="tool-name">Notion AI</h3>
-        <p class="tool-desc">My PRD home base. I use Notion AI to draft specs, auto-generate meeting summaries, and pull relevant context from past documents. Writing a new PRD now starts with a prompt, not a blank page.</p>
-      </div>
-
-      <!-- Claude Code -->
-      <div class="tool-card reveal reveal-delay-2">
-        <span class="tool-icon">⌨</span>
-        <div class="tool-category">Build & Automate</div>
-        <h3 class="tool-name">Claude Code</h3>
-        <p class="tool-desc">I use Claude Code to write scripts, prototype features, and automate repetitive PM tasks — without needing an engineering sprint. This very portfolio was built with it.</p>
+        <p class="tool-desc">My PRD home base and research layer. I use Notion AI to structure problem statements, surface unstated assumptions, and generate full product spec. By the time I hand off to engineering, the brief is tight and the assumptions are already challenged.</p>
       </div>
 
       <!-- Pencil -->
       <div class="tool-card reveal reveal-delay-1">
         <span class="tool-icon">✦</span>
-        <div class="tool-category">Rapid Prototyping</div>
+        <div class="tool-category">03. Discovery &amp; Prototyping</div>
         <h3 class="tool-name">Pencil</h3>
-        <p class="tool-desc">AI-generated UI mockups from a text prompt. I use Pencil to sketch product ideas visually before involving design — cutting the gap between concept and feedback loop.</p>
+        <p class="tool-desc">AI-generated UI mockups from a text prompt. I use Pencil during discovery to visualise product ideas before involving design. It helps turn a concept into something tangible fast enough to get real feedback early.</p>
       </div>
 
-      <!-- Speechify -->
+      <!-- Claude Code -->
       <div class="tool-card reveal reveal-delay-2">
-        <span class="tool-icon">◉</span>
-        <div class="tool-category">Research at Speed</div>
-        <h3 class="tool-name">Speechify</h3>
-        <p class="tool-desc">I consume research papers, competitor docs, and long reads at 2–3× speed. Async knowledge absorption without blocking deep work time.</p>
-      </div>
-
-      <!-- Figma / FigJam -->
-      <div class="tool-card reveal reveal-delay-3">
-        <span class="tool-icon">⬡</span>
-        <div class="tool-category">Design & Collaboration</div>
-        <h3 class="tool-name">Figma / FigJam</h3>
-        <p class="tool-desc">Figma for design reviews and spec handoffs. FigJam for async product brainstorms, user flow mapping, and remote workshops across time zones.</p>
+        <span class="tool-icon">⌨</span>
+        <div class="tool-category">04. Build &amp; Validate</div>
+        <h3 class="tool-name">Claude Code</h3>
+        <p class="tool-desc">I use Claude Code to build prototypes and validate concepts independently. It's changed how I think about the PM-to-engineering handoff entirely. Still experimenting but finding it powerful.</p>
       </div>
 
     </div>
