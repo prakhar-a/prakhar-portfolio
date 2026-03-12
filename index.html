@@ -1720,12 +1720,38 @@
   .nav-mobile-menu a:hover,
   .nav-mobile-menu a:active { color: var(--accent); background: var(--bg2); }
 
+  .nav-mobile-theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    background: none;
+    border: none;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-mobile-theme-toggle:hover,
+  .nav-mobile-theme-toggle:active { color: var(--accent); background: var(--bg2); }
+  .nav-mobile-theme-toggle svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+  .nav-mobile-theme-toggle .icon-sun { display: none; }
+  .nav-mobile-theme-toggle .icon-moon { display: block; }
+  [data-theme="dark"] .nav-mobile-theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .nav-mobile-theme-toggle .icon-moon { display: none; }
+
   /* RESPONSIVE */
   @media (max-width: 1024px) {
     nav { padding: 16px 24px; }
     /* On tablet/mobile: hide desktop nav links, show hamburger; keep social icons always visible */
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
+    .theme-toggle { display: none; }
     .hero { padding: 100px 24px 60px; }
     .hero-content { grid-template-columns: 1fr; gap: 48px; }
     .hero-stats { max-width: 420px; }
@@ -1832,6 +1858,11 @@
   <a href="#videos" class="nav-mobile-link">Videos</a>
   <a href="#toolstack" class="nav-mobile-link">Working with AI</a>
   <a href="#contact" class="nav-mobile-link">Contact</a>
+  <button class="nav-mobile-theme-toggle" id="mobileThemeToggle" aria-label="Toggle light/dark mode">
+    <span>Toggle theme</span>
+    <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></svg>
+  </button>
 </div>
 
 <!-- HERO -->
@@ -2820,9 +2851,7 @@
 
   // ── Light / dark mode toggle ──────────────────────────────────────────────
   (function() {
-    const btn = document.getElementById('themeToggle');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
+    function toggleTheme() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       if (isDark) {
         document.documentElement.removeAttribute('data-theme');
@@ -2831,7 +2860,11 @@
         document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
       }
-    });
+    }
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.addEventListener('click', toggleTheme);
+    const mobileBtn = document.getElementById('mobileThemeToggle');
+    if (mobileBtn) mobileBtn.addEventListener('click', toggleTheme);
   })();
 
   // ── Hero typing animation ─────────────────────────────────────────────────
