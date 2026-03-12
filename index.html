@@ -1627,7 +1627,6 @@
     animation: blink-cursor 0.85s step-end infinite;
   }
 
-  /* SECTION SCROLL SNAP — handled by JS for smooth animation control */
 
   /* SCROLL-TO-TOP BUTTON */
   .scroll-top-btn {
@@ -2483,80 +2482,6 @@
     requestAnimationFrame(step);
   }
 
-  // ── Section-by-section scroll snap (JS-driven for smooth control) ────────
-  (function() {
-    const SNAP_DURATION = 750; // ms — tune this for faster/slower feel
-    const SNAP_COOLDOWN = 900; // ms before another snap can fire
-    const WHEEL_THRESH  = 30;  // min deltaY to trigger snap (ignores tiny nudges)
-    const TOUCH_THRESH  = 40;  // min touch swipe distance
-
-    const MOBILE_BREAKPOINT = 1024; // match nav hamburger breakpoint
-    const snapSelectors = '.hero, .section-full, .contact-section';
-    let snapping = false;
-    let touchStartY = 0;
-
-    function isDesktop() { return window.innerWidth > MOBILE_BREAKPOINT; }
-
-    function getSnapSections() {
-      return [...document.querySelectorAll(snapSelectors)];
-    }
-
-    function getCurrentIndex(sections) {
-      const mid = window.scrollY + window.innerHeight * 0.4;
-      let idx = 0;
-      sections.forEach((s, i) => { if (s.offsetTop <= mid) idx = i; });
-      return idx;
-    }
-
-    function snapTo(section) {
-      if (snapping || !section) return;
-      snapping = true;
-      const navH = document.querySelector('nav')?.offsetHeight || 72;
-      const dest = section.offsetTop - (section.classList.contains('hero') ? 0 : navH);
-      smoothScrollTo_raw(dest, SNAP_DURATION);
-      setTimeout(() => { snapping = false; }, SNAP_COOLDOWN);
-    }
-
-    // Raw destination version of smoothScrollTo (uses px target, not element)
-    function smoothScrollTo_raw(destY, duration) {
-      const start = window.scrollY;
-      const diff  = destY - start;
-      let startTime = null;
-      function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
-      function step(now) {
-        if (!startTime) startTime = now;
-        const progress = Math.min((now - startTime) / duration, 1);
-        window.scrollTo(0, start + diff * ease(progress));
-        if (progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-
-    window.addEventListener('wheel', function(e) {
-      if (!isDesktop()) return;
-      if (Math.abs(e.deltaY) < WHEEL_THRESH) return;
-      const sections = getSnapSections();
-      const idx = getCurrentIndex(sections);
-      const next = e.deltaY > 0 ? sections[idx + 1] : sections[idx - 1];
-      if (!next) return;
-      e.preventDefault();
-      snapTo(next);
-    }, { passive: false });
-
-    window.addEventListener('touchstart', function(e) {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-
-    window.addEventListener('touchend', function(e) {
-      if (!isDesktop()) return;
-      const diff = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(diff) < TOUCH_THRESH) return;
-      const sections = getSnapSections();
-      const idx = getCurrentIndex(sections);
-      const next = diff > 0 ? sections[idx + 1] : sections[idx - 1];
-      snapTo(next);
-    }, { passive: true });
-  })();
 
   document.addEventListener('click', e => {
     const link = e.target.closest('a[href^="#"]');
