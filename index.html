@@ -223,11 +223,12 @@
   .hero-grid-bg {
     position: absolute;
     inset: 0;
-    background-image: 
+    background-image:
       linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    will-change: transform;
   }
 
   .hero-accent-circle {
@@ -239,6 +240,7 @@
     border-radius: 50%;
     background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
     pointer-events: none;
+    will-change: transform;
   }
 
   #particle-canvas,
@@ -853,7 +855,14 @@
   .video-tab:hover { color: var(--text); }
   .video-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .video-tab-panel { display: none; }
-  .video-tab-panel.active { display: block; }
+  .video-tab-panel.active {
+    display: block;
+    animation: tabFadeIn 0.3s ease forwards;
+  }
+  @keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
   .video-group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -2791,6 +2800,26 @@
       const about = document.getElementById('about');
       if (about) about.scrollIntoView({ behavior: 'smooth' });
     });
+  })();
+
+  // ── Hero parallax on background layers ───────────────────────────────────
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+    const heroGrid   = document.querySelector('.hero-grid-bg');
+    const heroCircle = document.querySelector('.hero-accent-circle');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          if (heroGrid)   heroGrid.style.transform   = `translateY(${y * 0.15}px)`;
+          if (heroCircle) heroCircle.style.transform = `translateY(${y * 0.08}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
   })();
 
   // ─── PASSWORD GATE ────────────────────────────────────────────────────
