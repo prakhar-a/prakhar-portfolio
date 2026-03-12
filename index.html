@@ -30,6 +30,23 @@
     --accent-glow: rgba(212,165,53,0.15);
     --red: #c94c4c;
     --green: #3a8a57;
+    --bg-nav: rgba(250,248,244,0.92);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0e0d0b;
+    --bg2: #181612;
+    --bg3: #211e18;
+    --border: #2e2a22;
+    --text: #f0ebe2;
+    --text-muted: #7a6e5a;
+    --text-dim: #9a8e7a;
+    --accent: #d4a535;
+    --accent-dim: #a07820;
+    --accent-glow: rgba(212,165,53,0.12);
+    --red: #e05c5c;
+    --green: #4aaa6a;
+    --bg-nav: rgba(14,13,11,0.92);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -70,7 +87,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px 48px;
-    background: rgba(250,248,244,0.92);
+    background: var(--bg-nav);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
   }
@@ -153,6 +170,31 @@
   .nav-social a:hover { color: var(--accent); }
 
   .nav-social svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    font-size: 0.68rem;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+  .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+  .theme-toggle .icon-sun { display: none; }
+  .theme-toggle .icon-moon { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
   /* HERO */
   .hero {
@@ -1653,6 +1695,10 @@
   .nav-mobile-menu a:hover,
   .nav-mobile-menu a:active { color: var(--accent); background: var(--bg2); }
 </style>
+<script>
+  // Apply saved theme before first paint to prevent FOUC
+  (function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+</script>
 </head>
 <body>
 
@@ -1690,6 +1736,12 @@
       <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
     </a>
   </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+    <!-- Moon icon (shown in light mode) -->
+    <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+    <!-- Sun icon (shown in dark mode) -->
+    <svg class="icon-sun" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></svg>
+  </button>
   <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -2676,6 +2728,22 @@
 
   // On page load: only load thumbnails for public (non-protected) cards
   document.querySelectorAll('.video-card[data-loom]:not([data-protected])').forEach(loadThumbForCard);
+
+  // ── Light / dark mode toggle ──────────────────────────────────────────────
+  (function() {
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  })();
 
   // ── Hero typing animation ─────────────────────────────────────────────────
   (function() {
