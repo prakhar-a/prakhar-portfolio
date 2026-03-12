@@ -1355,21 +1355,25 @@
 
   .contact-inner {
     position: relative;
-    max-width: 600px;
+    max-width: 1100px;
     margin: 0 auto;
   }
 
   .contact-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2.5rem, 7vw, 6rem);
-    margin-bottom: 16px;
+    font-size: clamp(2.5rem, 8.5vw, 7.5rem);
+    margin-bottom: 20px;
+    line-height: 1.05;
   }
 
   .contact-desc {
     color: var(--text-dim);
     font-weight: 300;
     margin-bottom: 40px;
-    font-size: 1.02rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .contact-links {
@@ -1482,6 +1486,7 @@
 
   @media (max-width: 640px) {
     .nav-links { display: none; }
+    .nav-social { display: none; }
     .products-grid { grid-template-columns: 1fr; }
     .product-card-half { grid-column: span 1; }
     .product-card-secondary { grid-column: span 1; }
@@ -1492,7 +1497,67 @@
     .section-header { flex-direction: column; align-items: flex-start; }
     .section-subtitle { text-align: left; }
     .contact-section::before { display: none; }
+    .nav-hamburger { display: flex; }
+    footer { padding: 24px 20px; gap: 20px; }
+    .footer-links { flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .footer-copy { text-align: center; }
   }
+
+  /* HAMBURGER */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 101;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 57px;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    z-index: 99;
+    flex-direction: column;
+  }
+
+  .nav-mobile-menu.open { display: flex; }
+
+  .nav-mobile-menu a {
+    padding: 16px 24px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-mobile-menu a:last-child { border-bottom: none; }
+  .nav-mobile-menu a:hover,
+  .nav-mobile-menu a:active { color: var(--accent); background: var(--bg2); }
 </style>
 </head>
 <body>
@@ -1526,7 +1591,19 @@
       <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
     </a>
   </div>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a href="#about" class="nav-mobile-link">About</a>
+  <a href="#principles" class="nav-mobile-link">How I build</a>
+  <a href="#products" class="nav-mobile-link">Products</a>
+  <a href="#videos" class="nav-mobile-link">Videos</a>
+  <a href="#toolstack" class="nav-mobile-link">How I work with AI</a>
+  <a href="#contact" class="nav-mobile-link">Contact</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -2223,6 +2300,22 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
   reveals.forEach(el => observer.observe(el));
+
+  // Hamburger menu
+  const hamburger = document.getElementById('navHamburger');
+  const mobileMenu = document.getElementById('navMobileMenu');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
 
   // Nav scroll effect
   const nav = document.querySelector('nav');
