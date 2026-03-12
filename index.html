@@ -601,15 +601,15 @@
   }
 
   /* PRODUCT CARD LAYOUT VARIANTS */
-  /* Half-width cards: rows 1 & 2 (span 3 of 6 cols) */
+  /* Half-width cards: rows 1 & 2 (span 3 of 6 cols) — highlighted */
   .product-card-half {
     grid-column: span 3;
+    background: var(--bg2);
   }
 
   /* Secondary cards: row 3 — compact, quieter (span 2 of 6 cols) */
   .product-card-secondary {
     grid-column: span 2;
-    background: var(--bg2);
     padding: 28px 24px;
   }
 
@@ -1459,7 +1459,7 @@
     .nav-links { display: none; }
     .products-grid { grid-template-columns: 1fr; }
     .product-card-half { grid-column: span 1; }
-    .product-card-secondary { grid-column: span 1; background: var(--bg2); }
+    .product-card-secondary { grid-column: span 1; }
     .video-group { grid-template-columns: repeat(2, 1fr); }
     .skills-grid { grid-template-columns: 1fr 1fr; }
     .principles-grid { grid-template-columns: 1fr; }
