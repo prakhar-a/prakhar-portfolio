@@ -601,9 +601,13 @@
   }
 
   /* PRODUCT CARD LAYOUT VARIANTS */
-  /* Half-width cards: rows 1 & 2 (span 3 of 6 cols) — highlighted */
+  /* Half-width cards: rows 1 & 2 (span 3 of 6 cols) */
   .product-card-half {
     grid-column: span 3;
+  }
+
+  /* Highlighted: top 2 featured cards only */
+  .product-card-highlight {
     background: var(--bg2);
   }
 
@@ -1686,7 +1690,7 @@
       <!-- ROW 1: Featured pair -->
 
       <!-- 01: AIR Money -->
-      <div class="product-card product-card-half reveal">
+      <div class="product-card product-card-half product-card-highlight reveal">
         <div class="product-card-company">Animoca Brands</div>
         <div class="product-card-status">
           <span class="status-dot"></span>
@@ -1705,7 +1709,7 @@
       </div>
 
       <!-- 02: USD8 -->
-      <div class="product-card product-card-half reveal reveal-delay-1">
+      <div class="product-card product-card-half product-card-highlight reveal reveal-delay-1">
         <div class="product-card-company">Animoca Brands</div>
         <div class="product-card-status">
           <span class="status-dot building"></span>
