@@ -2488,9 +2488,12 @@
     const WHEEL_THRESH  = 30;  // min deltaY to trigger snap (ignores tiny nudges)
     const TOUCH_THRESH  = 40;  // min touch swipe distance
 
+    const MOBILE_BREAKPOINT = 1024; // match nav hamburger breakpoint
     const snapSelectors = '.hero, .section-full, .contact-section';
     let snapping = false;
     let touchStartY = 0;
+
+    function isDesktop() { return window.innerWidth > MOBILE_BREAKPOINT; }
 
     function getSnapSections() {
       return [...document.querySelectorAll(snapSelectors)];
@@ -2528,6 +2531,7 @@
     }
 
     window.addEventListener('wheel', function(e) {
+      if (!isDesktop()) return;
       if (Math.abs(e.deltaY) < WHEEL_THRESH) return;
       const sections = getSnapSections();
       const idx = getCurrentIndex(sections);
@@ -2542,6 +2546,7 @@
     }, { passive: true });
 
     window.addEventListener('touchend', function(e) {
+      if (!isDesktop()) return;
       const diff = touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(diff) < TOUCH_THRESH) return;
       const sections = getSnapSections();
