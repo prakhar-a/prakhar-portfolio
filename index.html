@@ -835,6 +835,7 @@
     border-bottom: 1px solid var(--border);
     margin-bottom: 0;
     flex-wrap: wrap;
+    position: relative;
   }
   .video-tab {
     font-family: 'Montserrat', sans-serif;
@@ -853,7 +854,35 @@
     white-space: nowrap;
   }
   .video-tab:hover { color: var(--text); }
-  .video-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .video-tab.active { color: var(--accent); }
+  .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: var(--border);
+    border-radius: 9px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-left: 6px;
+    vertical-align: middle;
+    transition: background 0.2s, color 0.2s;
+  }
+  .video-tab.active .tab-count {
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+  .tab-indicator {
+    position: absolute;
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
   .video-tab-panel { display: none; }
   .video-tab-panel.active {
     display: block;
@@ -874,7 +903,7 @@
 
   .video-card {
     background: var(--bg2);
-    aspect-ratio: 4/3;
+    aspect-ratio: 16/9;
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -882,6 +911,8 @@
   }
 
   .video-card:hover .video-overlay { opacity: 1; }
+  /* Faint persistent play hint for public (non-protected) cards */
+  .video-card:not([data-protected]):not(:hover) .video-overlay { opacity: 0.22; }
 
   .video-placeholder {
     width: 100%;
@@ -2297,9 +2328,9 @@
     <div class="videos-scroll reveal">
 
       <div class="video-tabs">
-        <button class="video-tab active" data-tab="wallets">Wallet, Infrastructure &amp; Stablecoins</button>
-        <button class="video-tab" data-tab="trading">Trading &amp; DeFi</button>
-        <button class="video-tab" data-tab="tokens">Token Economics</button>
+        <button class="video-tab active" data-tab="wallets">Wallet, Infrastructure &amp; Stablecoins<span class="tab-count">3</span></button>
+        <button class="video-tab" data-tab="trading">Trading &amp; DeFi<span class="tab-count">5</span></button>
+        <button class="video-tab" data-tab="tokens">Token Economics<span class="tab-count">3</span></button>
       </div>
 
       <!-- TAB 1: Wallet, Infrastructure & Stablecoins -->
@@ -2995,6 +3026,28 @@
       document.querySelector(`.video-tab-panel[data-panel="${target}"]`).classList.add('active');
     });
   });
+
+  // ── Sliding tab indicator ─────────────────────────────────────────────
+  (function() {
+    const tabsEl = document.querySelector('.video-tabs');
+    if (!tabsEl) return;
+    const indicator = document.createElement('div');
+    indicator.className = 'tab-indicator';
+    tabsEl.appendChild(indicator);
+    function positionIndicator(tab, animate) {
+      const tabRect = tab.getBoundingClientRect();
+      const containerRect = tabsEl.getBoundingClientRect();
+      if (!animate) indicator.style.transition = 'none';
+      indicator.style.left = (tabRect.left - containerRect.left) + 'px';
+      indicator.style.width = tabRect.width + 'px';
+      if (!animate) requestAnimationFrame(() => { indicator.style.transition = ''; });
+    }
+    const initialActive = tabsEl.querySelector('.video-tab.active');
+    if (initialActive) positionIndicator(initialActive, false);
+    document.querySelectorAll('.video-tab').forEach(tab => {
+      tab.addEventListener('click', () => positionIndicator(tab, true));
+    });
+  })();
 
   document.querySelectorAll('.video-card').forEach(card => {
     card.addEventListener('click', () => {
