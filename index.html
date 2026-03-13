@@ -1909,7 +1909,7 @@
 </style>
 <script>
   // Apply saved theme before first paint to prevent FOUC
-  (function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+  (function(){var t=localStorage.getItem('theme');if(t!=='light')document.documentElement.setAttribute('data-theme','dark');})();
 </script>
 </head>
 <body>
