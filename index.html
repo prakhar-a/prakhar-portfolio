@@ -386,10 +386,17 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 6px;
     padding: 0 28px;
     border-bottom: none;
     border-right: 1px solid var(--border);
+  }
+
+  .stat-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
   }
 
   .stats-label + .stat-item { padding-left: 0; }
@@ -408,7 +415,6 @@
   }
   .stat-icon svg { width: 15px; height: 15px; fill: currentColor; }
 
-  .stat-text { display: flex; flex-direction: column; gap: 4px; }
 
   .stat-value {
     font-family: 'Montserrat', sans-serif;
@@ -503,6 +509,12 @@
   .about-text p strong {
     color: var(--text);
     font-weight: 500;
+  }
+
+  .about-text p a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .about-timeline {
@@ -835,6 +847,7 @@
     border-bottom: 1px solid var(--border);
     margin-bottom: 0;
     flex-wrap: wrap;
+    position: relative;
   }
   .video-tab {
     font-family: 'Montserrat', sans-serif;
@@ -853,7 +866,35 @@
     white-space: nowrap;
   }
   .video-tab:hover { color: var(--text); }
-  .video-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .video-tab.active { color: var(--accent); }
+  .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: var(--border);
+    border-radius: 9px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-left: 6px;
+    vertical-align: middle;
+    transition: background 0.2s, color 0.2s;
+  }
+  .video-tab.active .tab-count {
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+  .tab-indicator {
+    position: absolute;
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
   .video-tab-panel { display: none; }
   .video-tab-panel.active {
     display: block;
@@ -874,7 +915,7 @@
 
   .video-card {
     background: var(--bg2);
-    aspect-ratio: 4/3;
+    aspect-ratio: 16/9;
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -882,6 +923,8 @@
   }
 
   .video-card:hover .video-overlay { opacity: 1; }
+  /* Faint persistent play hint for public (non-protected) cards */
+  .video-card:not([data-protected]):not(:hover) .video-overlay { opacity: 0.22; }
 
   .video-placeholder {
     width: 100%;
@@ -1903,7 +1946,7 @@
 </style>
 <script>
   // Apply saved theme before first paint to prevent FOUC
-  (function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+  (function(){var t=localStorage.getItem('theme');if(t!=='light')document.documentElement.setAttribute('data-theme','dark');})();
 </script>
 </head>
 <body>
@@ -1984,35 +2027,35 @@
       <div class="stats-label">// some highlights</div>
       <div class="stat-item">
         <!-- Bar chart / volume icon -->
-        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M5 9h2v11H5zm4-5h2v16H9zm4 8h2v8h-2zm4-4h2v12h-2z"/></svg></div>
-        <div class="stat-text">
-          <div class="stat-value">$100B+</div>
-          <div class="stat-desc">in trading volume across DeFi products I led</div>
+        <div class="stat-top">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M5 9h2v11H5zm4-5h2v16H9zm4 8h2v8h-2zm4-4h2v12h-2z"/></svg></div>
+          <div class="stat-value">US$100b+</div>
         </div>
+        <div class="stat-desc">in trading volume across DeFi products I led</div>
       </div>
       <div class="stat-item">
         <!-- Trending up / growth icon -->
-        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg></div>
-        <div class="stat-text">
+        <div class="stat-top">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg></div>
           <div class="stat-value">10x+</div>
-          <div class="stat-desc">MAU growth on a trading product I led (9k → 138k)</div>
         </div>
+        <div class="stat-desc">MAU growth on a trading product I led (9k → 138k)</div>
       </div>
       <div class="stat-item">
         <!-- People / users icon -->
-        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
-        <div class="stat-text">
+        <div class="stat-top">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
           <div class="stat-value">300k+</div>
-          <div class="stat-desc">users on wallet &amp; payments products I shipped</div>
         </div>
+        <div class="stat-desc">users on wallet &amp; payments products I shipped</div>
       </div>
       <div class="stat-item">
         <!-- Team / org icon -->
-        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
-        <div class="stat-text">
+        <div class="stat-top">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
           <div class="stat-value">13</div>
-          <div class="stat-desc">person product org built from zero</div>
         </div>
+        <div class="stat-desc">person product org built from zero</div>
       </div>
     </div>
     <div class="hero-cta">
@@ -2036,7 +2079,7 @@
     </div>
     <div class="about-grid">
       <div class="about-text reveal">
-        <p>I lead product at <a href="https://www.animocabrands.com" target="_blank" rel="noopener">Animoca Brands</a> across the money and stablecoin layer — building financial infrastructure for enterprises and AI agents to hold, grow, and move money. Before that, I was Head of Product at <a href="https://kyberswap.com" target="_blank" rel="noopener">KyberSwap</a>, one of DeFi's leading trading platforms, where I scaled the product to over $100B in cumulative trading volume. Earlier, I held product and engineering roles at <a href="https://thoughtmachine.net" target="_blank" rel="noopener">Thought Machine</a>, <a href="https://www.ubisoft.com" target="_blank" rel="noopener">Ubisoft</a>, and <a href="https://www.credit-suisse.com" target="_blank" rel="noopener">Credit Suisse</a>.</p>
+        <p>I lead product at <a href="https://www.animocabrands.com" target="_blank" rel="noopener">Animoca Brands</a> across the money and stablecoin layer — building financial infrastructure for enterprises and AI agents to hold, grow, and move money. Before that, I was Head of Product at <a href="https://kyberswap.com" target="_blank" rel="noopener">KyberSwap</a>, one of DeFi's leading trading platforms, where I scaled the product to over US$100b in cumulative trading volume. Earlier, I held product and engineering roles at <a href="https://thoughtmachine.net" target="_blank" rel="noopener">Thought Machine</a>, <a href="https://www.ubisoft.com" target="_blank" rel="noopener">Ubisoft</a>, and <a href="https://www.credit-suisse.com" target="_blank" rel="noopener">Credit Suisse</a>.</p>
         <p>I started as a software engineer, which means I can come to every product problem from both sides. I've worked across early-stage startups, high-growth scaleups, and large institutions with complex structures. I've built product teams from scratch, put in place the processes that let teams ship with clarity, and know how to align stakeholders across engineering, business, and executive levels.</p>
         <p>Two things occupy me right now. First: AI agents are becoming autonomous actors, and the financial infrastructure for that doesn't yet fully exist — payment rails, programmable wallets, policy engines. This is what I'm actively exploring. Second: I've embedded AI deeply into my own product workflow, which gives me time to think more and the space to prototype and validate.</p>
       </div>
@@ -2153,8 +2196,8 @@
           <span class="status-dot"></span>
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
-        <div class="product-card-number">01</div>
-        <h3 class="product-card-name">AIR Money — Financial OS for enterprises and agents</h3>
+
+        <h3 class="product-card-name">Money layer for enterprises &amp; agents</h3>
         <p class="product-card-desc">A financial infrastructure SDK for enterprises and AI agents. As Product Lead, I designed the modular architecture covering payins, payouts, stablecoin integration, and custom payment rails — built to be embedded directly into any product. For teams that want to move money without building the infrastructure from scratch.</p>
         <div class="product-card-tags">
           <span class="tag">Stablecoins</span>
@@ -2173,8 +2216,8 @@
           <span class="status-dot building"></span>
           <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Coming Soon</span>
         </div>
-        <div class="product-card-number">02</div>
-        <h3 class="product-card-name">USD8 — Enterprise Stablecoin</h3>
+
+        <h3 class="product-card-name">Enterprise-grade stablecoin</h3>
         <p class="product-card-desc">A yield-bearing stablecoin built on M0 infrastructure, issued in partnership with MoonPay. As Product Lead, I owned the full stablecoin lifecycle — fiat ramps, issuance and redemption, liquidity and solver inventory, and yield distribution. Designed for enterprises that need a stable, productive unit of account.</p>
         <div class="product-card-tags">
           <span class="tag">Stablecoin</span>
@@ -2193,9 +2236,9 @@
           <span class="status-dot"></span>
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
-        <div class="product-card-number">03</div>
-        <h3 class="product-card-name">AIR Wallet — Consumer Crypto Wallet</h3>
-        <p class="product-card-desc">A smart wallet built on AIR Money infrastructure. I led and shipped V1 with a single engineer — live with 300k+ users across South Korea. Abstracts blockchain complexity into a familiar experience. Also available for enterprise embedding.</p>
+
+        <h3 class="product-card-name">Consumer Crypto Wallet</h3>
+        <p class="product-card-desc">A smart wallet built on our money layer. I led and shipped V1 with a single engineer — live with 300k+ users across South Korea. Abstracts blockchain complexity into a familiar experience. Also available for enterprise embedding.</p>
         <div class="product-card-tags">
           <span class="tag">Smart Wallet</span>
           <span class="tag">Embedded Finance</span>
@@ -2210,9 +2253,9 @@
           <span class="status-dot"></span>
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
-        <div class="product-card-number">04</div>
+
         <h3 class="product-card-name">Digital Assets Trading Platform</h3>
-        <p class="product-card-desc">A multi-chain trading platform I led as Head of Product, scaling it to over $100B in trading volume. Covered aggregation, limit orders, liquidity protocols, and on-chain analytics — one of the most widely used trading products in DeFi.</p>
+        <p class="product-card-desc">A multi-chain trading platform I led as Head of Product, scaling it to over US$100b in trading volume. Covered aggregation, limit orders, liquidity protocols, and on-chain analytics — one of the most widely used trading products in DeFi.</p>
         <div class="product-card-tags">
           <span class="tag">Trading</span>
           <span class="tag">DeFi</span>
@@ -2230,8 +2273,8 @@
           <span class="status-dot"></span>
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
-        <div class="product-card-number">05</div>
-        <h3 class="product-card-name">KyberAI — Trading analytics</h3>
+
+        <h3 class="product-card-name">Trading Analytics Platform</h3>
         <p class="product-card-desc">Trading analytics product I led end to end — aggregating on-chain and off-chain data into actionable signals to help traders make faster, more informed decisions.</p>
         <div class="product-card-tags">
           <span class="tag">Analytics</span>
@@ -2240,32 +2283,14 @@
         <a href="#videos" data-video-tab="trading" class="product-card-link">Watch Demo →</a>
       </div>
 
-      <!-- 06: Proof of Data Staking -->
+      <!-- 06: Developer APIs, SDKs & Widgets -->
       <div class="product-card product-card-secondary product-card-more reveal reveal-delay-1">
-
-        <div class="product-card-status">
-          <span class="status-dot building"></span>
-          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">In Development</span>
-        </div>
-        <div class="product-card-number">06</div>
-        <h3 class="product-card-name">Proof of Data Staking</h3>
-        <p class="product-card-desc">An identity data staking platform. I led the full product — from tokenomics design to build. Uses vote-escrowed mechanics like Curve where users vote on identity data, direct incentives, and earn rewards from verifications. A product I'm proud of.</p>
-        <div class="product-card-tags">
-          <span class="tag">Identity</span>
-          <span class="tag">Staking</span>
-          <span class="tag">Tokenomics</span>
-        </div>
-        <a href="#videos" data-video-tab="tokens" class="product-card-link">Watch Demo →</a>
-      </div>
-
-      <!-- 07: Developer APIs, SDKs & Widgets -->
-      <div class="product-card product-card-secondary product-card-more reveal reveal-delay-2">
 
         <div class="product-card-status">
           <span class="status-dot"></span>
           <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
         </div>
-        <div class="product-card-number">07</div>
+
         <h3 class="product-card-name">Trading APIs, SDK and Widgets</h3>
         <p class="product-card-desc">Trading APIs, SDKs, and embeddable widgets I led for partners at KyberSwap. Used by 50+ integrations including MetaMask, DefiLlama, and DexScreener.</p>
         <div class="product-card-tags">
@@ -2273,6 +2298,25 @@
           <span class="tag">SDK</span>
         </div>
         <a href="https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator/developer-guides" target="_blank" rel="noopener noreferrer" class="product-card-link">View Docs →</a>
+      </div>
+
+      <!-- 07: Crypto Staking ve(3,3) -->
+      <div class="product-card product-card-secondary product-card-more reveal reveal-delay-2">
+
+        <div class="product-card-status">
+          <span class="status-dot building"></span>
+          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">In Development</span>
+        </div>
+
+        <h3 class="product-card-name">Crypto Staking ve(3,3)</h3>
+        <p class="product-card-desc">An identity data staking platform. I led the full product — from tokenomics design to build. Uses vote-escrowed mechanics like Curve where users vote on identity data, direct incentives, and earn rewards from verifications. A product I'm proud of.</p>
+        <div class="product-card-tags">
+          <span class="tag">Identity</span>
+          <span class="tag">Staking</span>
+          <span class="tag">Tokenomics</span>
+          <span class="tag">ve(3,3)</span>
+        </div>
+        <a href="#videos" data-video-tab="tokens" class="product-card-link">Watch Demo →</a>
       </div>
 
     </div>
@@ -2297,9 +2341,9 @@
     <div class="videos-scroll reveal">
 
       <div class="video-tabs">
-        <button class="video-tab active" data-tab="wallets">Wallet, Infrastructure &amp; Stablecoins</button>
-        <button class="video-tab" data-tab="trading">Trading &amp; DeFi</button>
-        <button class="video-tab" data-tab="tokens">Token Economics</button>
+        <button class="video-tab active" data-tab="wallets">Wallet, Infrastructure &amp; Stablecoins<span class="tab-count">3</span></button>
+        <button class="video-tab" data-tab="trading">Trading &amp; DeFi<span class="tab-count">5</span></button>
+        <button class="video-tab" data-tab="tokens">Token Economics<span class="tab-count">3</span></button>
       </div>
 
       <!-- TAB 1: Wallet, Infrastructure & Stablecoins -->
@@ -2307,30 +2351,30 @@
         <div class="video-group">
           <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMzNhZWZmNzhiZDU3NGJmYjhmZmQ4MDA2MGUzZTkwMjk=">
             <div class="video-placeholder">
-              <div class="video-placeholder-name">AIR Money OS</div>
+              <div class="video-placeholder-name">Money Layer SDK</div>
               <div class="video-placeholder-desc">Embeddable MPC wallet for enterprises — drop a fully customizable crypto wallet into any app without building from scratch.</div>
             </div>
             <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
             <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
-            <div class="video-meta"><span class="video-name">AIR Money OS</span><span class="video-duration"></span></div>
+            <div class="video-meta"><span class="video-name">Money Layer SDK</span><span class="video-duration"></span></div>
           </div>
           <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvNDk1NGRiNjkzMzk4NDNkMTlkYTQ5YmJhYWI4NzIzOTk=">
             <div class="video-placeholder">
-              <div class="video-placeholder-name">AIR Wallet</div>
+              <div class="video-placeholder-name">Consumer Crypto Wallet</div>
               <div class="video-placeholder-desc">Consumer crypto wallet built for simplicity — send, receive, and manage digital assets without knowing the infrastructure.</div>
             </div>
             <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
             <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
-            <div class="video-meta"><span class="video-name">AIR Wallet</span><span class="video-duration"></span></div>
+            <div class="video-meta"><span class="video-name">Consumer Crypto Wallet</span><span class="video-duration"></span></div>
           </div>
           <div class="video-card" id="video-usd8" data-protected="true" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvMjZiODUwYjI0NTg5NGRiYThlMjcxYjdiOWU2YzczMzk=">
             <div class="video-placeholder">
-              <div class="video-placeholder-name">USD8 — Enterprise Stablecoin</div>
+              <div class="video-placeholder-name">Enterprise-grade stablecoin</div>
               <div class="video-placeholder-desc">Yield-bearing stablecoin for businesses — programmable, dollar-pegged asset for payouts, treasury, and payment flows.</div>
             </div>
             <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
             <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
-            <div class="video-meta"><span class="video-name">USD8 — Enterprise Stablecoin</span><span class="video-duration"></span></div>
+            <div class="video-meta"><span class="video-name">Enterprise-grade stablecoin</span><span class="video-duration"></span></div>
           </div>
         </div>
       </div>
@@ -2340,12 +2384,12 @@
         <div class="video-group video-group-5">
           <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvZDk4NWIyYjg3NmU0NDQ5NTk0MTdkYzdmYjhjMDI1MzI=">
             <div class="video-placeholder">
-              <div class="video-placeholder-name">KyberAI — Token Alpha</div>
+              <div class="video-placeholder-name">Trading Analytics</div>
               <div class="video-placeholder-desc">AI-powered trading signals from on-chain and market data — spot opportunities before they become obvious.</div>
             </div>
             <div class="lock-overlay"><div class="lock-icon-wrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg></div><span class="lock-label">Protected</span></div>
             <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
-            <div class="video-meta"><span class="video-name">KyberAI — Token Alpha</span><span class="video-duration"></span></div>
+            <div class="video-meta"><span class="video-name">Trading Analytics</span><span class="video-duration"></span></div>
           </div>
           <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvYjdjOTVjNmYzMjY2NDg5M2EyNWJkZjI3NTM4ZjY5NTc=">
             <div class="video-placeholder">
@@ -2398,7 +2442,7 @@
             <div class="video-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="video-label">Play</span></div>
             <div class="video-meta"><span class="video-name">NFT-Linked Token Airdrop</span><span class="video-duration"></span></div>
           </div>
-          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvYWFiMWE3Mjc4MTNmNDVkZWI3ZjU4MGVhMmJmZWI3YWQ=">
+          <div class="video-card" data-loom="aHR0cHM6Ly93d3cubG9vbS5jb20vc2hhcmUvYzUwYTI1Nzk0NGZkNGJiYjg4OTI2NjY0N2ZiMjBjNmU=">
             <div class="video-placeholder">
               <div class="video-placeholder-name">Staking &amp; Token Airdrop</div>
               <div class="video-placeholder-desc">Lock tokens, accumulate points, burn to claim airdrops — rewards long-term holders with structured distribution.</div>
@@ -2538,7 +2582,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2026 Prakhar Agarwal · Vibe coded with Claude ♥</div>
+  <div class="footer-copy">© 2026 Prakhar Agarwal · <em>Vibe coded with Claude</em></div>
   <div class="footer-links">
     <a href="#about">About</a>
     <a href="#principles">How I build</a>
@@ -2995,6 +3039,28 @@
       document.querySelector(`.video-tab-panel[data-panel="${target}"]`).classList.add('active');
     });
   });
+
+  // ── Sliding tab indicator ─────────────────────────────────────────────
+  (function() {
+    const tabsEl = document.querySelector('.video-tabs');
+    if (!tabsEl) return;
+    const indicator = document.createElement('div');
+    indicator.className = 'tab-indicator';
+    tabsEl.appendChild(indicator);
+    function positionIndicator(tab, animate) {
+      const tabRect = tab.getBoundingClientRect();
+      const containerRect = tabsEl.getBoundingClientRect();
+      if (!animate) indicator.style.transition = 'none';
+      indicator.style.left = (tabRect.left - containerRect.left) + 'px';
+      indicator.style.width = tabRect.width + 'px';
+      if (!animate) requestAnimationFrame(() => { indicator.style.transition = ''; });
+    }
+    const initialActive = tabsEl.querySelector('.video-tab.active');
+    if (initialActive) positionIndicator(initialActive, false);
+    document.querySelectorAll('.video-tab').forEach(tab => {
+      tab.addEventListener('click', () => positionIndicator(tab, true));
+    });
+  })();
 
   document.querySelectorAll('.video-card').forEach(card => {
     card.addEventListener('click', () => {
