@@ -2775,6 +2775,9 @@
         if (entry.isIntersecting) {
           const id = entry.target.id;
           navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+          if (typeof gtag === 'function') {
+            gtag('event', 'section_view', { section_name: id });
+          }
         }
       });
     }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
