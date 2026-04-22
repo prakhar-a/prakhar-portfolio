@@ -607,7 +607,7 @@
 
   .product-card {
     background: var(--bg);
-    padding: 28px 24px;
+    padding: 36px 32px;
     position: relative;
     transition: background 0.3s;
     cursor: default;
@@ -672,7 +672,7 @@
 
   .product-card-name {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.05rem;
+    font-size: 1.4rem;
     color: var(--text);
     margin-bottom: 12px;
     line-height: 1.2;
@@ -683,11 +683,11 @@
   }
 
   .product-card-desc {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-dim);
     font-weight: 300;
     line-height: 1.65;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
   }
 
   .product-card-tags {
@@ -752,9 +752,9 @@
   }
 
   /* PRODUCT CARD LAYOUT VARIANTS */
-  /* Half-width cards: rows 1 & 2 (span 2 of 6 cols) */
+  /* Half-width cards: rows 1 & 2 (span 3 of 6 cols) */
   .product-card-half {
-    grid-column: span 2;
+    grid-column: span 3;
   }
 
   /* Highlighted: top 2 featured cards only */
@@ -762,9 +762,19 @@
     background: var(--bg2);
   }
 
-  /* Secondary cards: row 3 (span 2 of 6 cols) */
+  /* Secondary cards: row 3 — compact, quieter (span 2 of 6 cols) */
   .product-card-secondary {
     grid-column: span 2;
+    padding: 28px 24px;
+  }
+
+  .product-card-secondary .product-card-name {
+    font-size: 1.05rem;
+  }
+
+  .product-card-secondary .product-card-desc {
+    font-size: 0.8rem;
+    margin-bottom: 14px;
   }
 
   .products-show-more-btn {
