@@ -721,7 +721,6 @@
   }
 
   .product-card-featured {
-    box-shadow: inset -2px 0 0 var(--accent-dim);
   }
 
   .product-card-status {
@@ -774,18 +773,6 @@
   .product-card-secondary {
     grid-column: span 2;
     padding: 28px 24px;
-  }
-
-  /* Hidden product cards (revealed via Show More) */
-  .product-card-more {
-    display: none;
-  }
-
-  /* Show More CTA */
-  .products-show-more {
-    margin-top: 24px;
-    display: flex;
-    justify-content: center;
   }
 
   .products-show-more-btn {
@@ -1547,15 +1534,6 @@
     background: var(--bg2);
   }
 
-  .tool-card-openclaw::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-  }
 
   .tool-icon {
     font-size: 1.4rem;
@@ -2330,9 +2308,6 @@
 
     </div>
 
-    <div class="products-show-more">
-      <button class="products-show-more-btn" id="productsShowMore">Show more products ↓</button>
-    </div>
   </div>
 </section>
 
@@ -2787,15 +2762,6 @@
     });
   })();
 
-  // Show More products
-  const showMoreBtn = document.getElementById('productsShowMore');
-  if (showMoreBtn) {
-    showMoreBtn.addEventListener('click', () => {
-      const moreCards = document.querySelectorAll('.product-card-more');
-      moreCards.forEach(card => { card.style.display = 'block'; });
-      showMoreBtn.parentElement.style.display = 'none';
-    });
-  }
 
   // Principle cards: toggle expand on click
   document.querySelectorAll('.principle-card').forEach(card => {
