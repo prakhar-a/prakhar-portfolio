@@ -1902,6 +1902,9 @@
     .products-grid { grid-template-columns: 1fr; }
     .product-card-half { grid-column: span 1; }
     .product-card-secondary { grid-column: span 1; }
+    /* Shrink tab text to prevent overflow on narrow screens */
+    .video-tab { font-size: 0.58rem; letter-spacing: 0.04em; padding: 8px 6px; line-height: 1.35; }
+    .tab-count { margin-left: 3px; min-width: 15px; height: 15px; font-size: 0.55rem; }
     /* Single-column on mobile avoids empty grid cells with odd-count video groups */
     .video-group { grid-template-columns: 1fr; }
     /* Reset video-group-5 span overrides on mobile so all cards stack single column */
