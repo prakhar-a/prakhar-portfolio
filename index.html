@@ -607,7 +607,7 @@
 
   .product-card {
     background: var(--bg);
-    padding: 36px 32px;
+    padding: 28px 24px;
     position: relative;
     transition: background 0.3s;
     cursor: default;
@@ -672,19 +672,22 @@
 
   .product-card-name {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.05rem;
     color: var(--text);
     margin-bottom: 12px;
     line-height: 1.2;
     padding-right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .product-card-desc {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-dim);
     font-weight: 300;
     line-height: 1.65;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
   }
 
   .product-card-tags {
@@ -723,16 +726,6 @@
   .product-card-featured {
   }
 
-  .product-card-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
 
   .status-dot {
     width: 6px;
@@ -759,9 +752,9 @@
   }
 
   /* PRODUCT CARD LAYOUT VARIANTS */
-  /* Half-width cards: rows 1 & 2 (span 3 of 6 cols) */
+  /* Half-width cards: rows 1 & 2 (span 2 of 6 cols) */
   .product-card-half {
-    grid-column: span 3;
+    grid-column: span 2;
   }
 
   /* Highlighted: top 2 featured cards only */
@@ -769,10 +762,9 @@
     background: var(--bg2);
   }
 
-  /* Secondary cards: row 3 — compact, quieter (span 2 of 6 cols) */
+  /* Secondary cards: row 3 (span 2 of 6 cols) */
   .product-card-secondary {
     grid-column: span 2;
-    padding: 28px 24px;
   }
 
   .products-show-more-btn {
@@ -795,15 +787,6 @@
   .products-show-more-btn:hover {
     border-color: var(--accent);
     color: var(--accent);
-  }
-
-  .product-card-secondary .product-card-name {
-    font-size: 1.05rem;
-  }
-
-  .product-card-secondary .product-card-desc {
-    font-size: 0.8rem;
-    margin-bottom: 14px;
   }
 
   .metric {
@@ -1615,10 +1598,11 @@
     color: var(--text-dim);
     font-weight: 300;
     margin-bottom: 40px;
-    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
+    white-space: nowrap;
   }
   .contact-work-rights {
     margin-top: 28px;
@@ -2116,12 +2100,7 @@
       <!-- 01: AIR Money -->
       <div class="product-card product-card-half product-card-featured reveal">
 
-        <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
-        </div>
-
-        <h3 class="product-card-name">Money layer for enterprises &amp; agents</h3>
+        <h3 class="product-card-name"><span class="status-dot"></span>Money layer for enterprises &amp; agents</h3>
         <p class="product-card-desc">A financial infrastructure SDK for enterprises and AI agents. As Product Lead, I designed the modular architecture covering payins, payouts, stablecoin integration, and custom payment rails — built to be embedded directly into any product. For teams that want to move money without building the infrastructure from scratch.</p>
         <div class="product-card-tags">
           <span class="tag">Stablecoins</span>
@@ -2136,12 +2115,7 @@
       <!-- 02: USD8 -->
       <div class="product-card product-card-half product-card-featured reveal reveal-delay-1">
 
-        <div class="product-card-status">
-          <span class="status-dot building"></span>
-          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Coming Soon</span>
-        </div>
-
-        <h3 class="product-card-name">Enterprise-grade stablecoin</h3>
+        <h3 class="product-card-name"><span class="status-dot building"></span>Enterprise-grade stablecoin</h3>
         <p class="product-card-desc">A yield-bearing stablecoin built on M0 infrastructure, issued in partnership with MoonPay. As Product Lead, I owned the full stablecoin lifecycle — fiat ramps, issuance and redemption, liquidity and solver inventory, and yield distribution. Designed for enterprises that need a stable, productive unit of account.</p>
         <div class="product-card-tags">
           <span class="tag">Stablecoin</span>
@@ -2156,12 +2130,7 @@
       <!-- 03: AIR Wallet -->
       <div class="product-card product-card-half reveal">
 
-        <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
-        </div>
-
-        <h3 class="product-card-name">Consumer Crypto Wallet</h3>
+        <h3 class="product-card-name"><span class="status-dot"></span>Consumer Crypto Wallet</h3>
         <p class="product-card-desc">A smart wallet built on our money layer. I led and shipped V1 with a single engineer — live with 300k+ users across South Korea. Abstracts blockchain complexity into a familiar experience. Also available for enterprise embedding.</p>
         <div class="product-card-tags">
           <span class="tag">Smart Wallet</span>
@@ -2173,12 +2142,7 @@
       <!-- 04: KyberSwap Trading -->
       <div class="product-card product-card-half reveal reveal-delay-1">
 
-        <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
-        </div>
-
-        <h3 class="product-card-name">Digital Assets Trading Platform</h3>
+        <h3 class="product-card-name"><span class="status-dot"></span>Digital Assets Trading Platform</h3>
         <p class="product-card-desc">A multi-chain trading platform I led as Head of Product, scaling it to over US$100b in trading volume. Covered aggregation, limit orders, liquidity protocols, and on-chain analytics — one of the most widely used trading products in DeFi.</p>
         <div class="product-card-tags">
           <span class="tag">Trading</span>
@@ -2193,12 +2157,7 @@
       <!-- 05: KyberAI -->
       <div class="product-card product-card-secondary product-card-more reveal">
 
-        <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
-        </div>
-
-        <h3 class="product-card-name">Trading Analytics Platform</h3>
+        <h3 class="product-card-name"><span class="status-dot"></span>Trading Analytics Platform</h3>
         <p class="product-card-desc">Trading analytics product I led end to end — aggregating on-chain and off-chain data into actionable signals to help traders make faster, more informed decisions.</p>
         <div class="product-card-tags">
           <span class="tag">Analytics</span>
@@ -2210,12 +2169,7 @@
       <!-- 06: Developer APIs, SDKs & Widgets -->
       <div class="product-card product-card-secondary product-card-more reveal reveal-delay-1">
 
-        <div class="product-card-status">
-          <span class="status-dot"></span>
-          <span style="color: var(--green); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">Live</span>
-        </div>
-
-        <h3 class="product-card-name">Trading APIs, SDK and Widgets</h3>
+        <h3 class="product-card-name"><span class="status-dot"></span>Trading APIs, SDK and Widgets</h3>
         <p class="product-card-desc">Trading APIs, SDKs, and embeddable widgets I led for partners at KyberSwap. Used by 50+ integrations including MetaMask, DefiLlama, and DexScreener.</p>
         <div class="product-card-tags">
           <span class="tag">APIs</span>
@@ -2227,12 +2181,7 @@
       <!-- 07: Crypto Staking ve(3,3) -->
       <div class="product-card product-card-secondary product-card-more reveal reveal-delay-2">
 
-        <div class="product-card-status">
-          <span class="status-dot building"></span>
-          <span style="color: var(--accent); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif;">In Development</span>
-        </div>
-
-        <h3 class="product-card-name">Crypto Staking ve(3,3)</h3>
+        <h3 class="product-card-name"><span class="status-dot building"></span>Crypto Staking ve(3,3)</h3>
         <p class="product-card-desc">An identity data staking platform. I led the full product — from tokenomics design to build. Uses vote-escrowed mechanics like Curve where users vote on identity data, direct incentives, and earn rewards from verifications. A product I'm proud of.</p>
         <div class="product-card-tags">
           <span class="tag">Identity</span>
