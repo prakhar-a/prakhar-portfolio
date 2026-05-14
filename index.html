@@ -712,6 +712,14 @@
 
   .product-card-link:hover { color: var(--text); gap: 8px; }
 
+  .product-card-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 18px;
+  }
+  .product-card-links .product-card-link { margin-top: 0; }
+
   .tag {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.6rem;
@@ -1981,15 +1989,18 @@
       <!-- 05: Moca Chain -->
       <div class="product-card product-card-half reveal">
 
-        <h3 class="product-card-name"><span class="status-dot building"></span>Moca Chain</h3>
-        <p class="product-card-desc">An identity-focused Layer 3 blockchain built for Web3 consumer apps. I contributed to the product development and led the tokenomics design for Moca Chain — shaping how the network rewards, governs, and sustains itself at scale.</p>
+        <h3 class="product-card-name"><span class="status-dot building"></span>Identity Blockchain</h3>
+        <p class="product-card-desc">A L1 blockchain built for decentralized identity enabling data issuance and verifications through zero-knowledge proofs. I contributed to the product development and led the tokenomics design for Moca Chain, shaping how the network rewards, governs, and sustains itself at scale.</p>
         <div class="product-card-tags">
           <span class="tag">Identity</span>
           <span class="tag">Blockchain</span>
           <span class="tag">Tokenomics</span>
           <span class="tag">Layer 3</span>
         </div>
-        <a href="https://mocachain.org" target="_blank" rel="noopener noreferrer" class="product-card-link">Visit Moca Chain →</a>
+        <div class="product-card-links">
+          <a href="https://mocachain.org" target="_blank" rel="noopener noreferrer" class="product-card-link">Visit →</a>
+          <a href="https://docs.moca.network/mocachain" target="_blank" rel="noopener noreferrer" class="product-card-link">See Docs →</a>
+        </div>
       </div>
 
       <!-- 06: KyberAI -->
